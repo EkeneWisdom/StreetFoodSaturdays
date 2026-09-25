@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Outlined Chat Balloon -->
+  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 2.137.67 4.116 1.821 5.74L2 22l4.48-1.22A9.959 9.959 0 0 0 12 22z" />
+  
+  <!-- 3 Rows of Menu Dots (Filled with currentColor to match the outline) -->
+  <g fill="currentColor" stroke="none">
+    <!-- Top Row -->
+    <circle cx="8" cy="9" r="1" />
+    <circle cx="12" cy="9" r="1" />
+    <circle cx="16" cy="9" r="1" />
+    <!-- Middle Row -->
+    <circle cx="8" cy="12" r="1" />
+    <circle cx="12" cy="12" r="1" />
+    <circle cx="16" cy="12" r="1" />
+    <!-- Bottom Row -->
+    <circle cx="8" cy="15" r="1" />
+    <circle cx="12" cy="15" r="1" />
+    <circle cx="16" cy="15" r="1" />
+  </g>
+</svg>

@@ -1,0 +1,77 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import type { Page } from "astro";
+import BlogListLayout from "@/components/blog/BlogListLayout.astro";
+import { POSTS_PER_PAGE } from "@/components/blog/settings";
+import site from "@/config/site";
+import blogUrls from "@/components/blog/blogUrls";
+import slugify from "@/lib/slugify";
+
+type BlogPost = CollectionEntry<"blog">;
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+  const publishedPosts = allPosts.filter(
+    (post) => !post.data.draft && new Date(post.data.pubDate) <= new Date()
+  );
+
+  const tags = [...new Set(publishedPosts.flatMap((post) => post.data.tags))];
+
+  return tags.map((tag) => {
+    const tagSlug = slugify(tag);
+    const tagPosts = publishedPosts
+      .filter((post) => post.data.tags.includes(tag))
+      .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+    const totalPages = Math.ceil(tagPosts.length / POSTS_PER_PAGE);
+    const pageOnePosts = tagPosts.slice(0, POSTS_PER_PAGE);
+
+    const page: Page<BlogPost> = {
+      data: pageOnePosts,
+      start: 0,
+      end: Math.min(POSTS_PER_PAGE, pageOnePosts.length) - 1,
+      total: tagPosts.length,
+      currentPage: 1,
+      size: POSTS_PER_PAGE,
+      lastPage: totalPages,
+      url: {
+        current: blogUrls.tag(tag),
+        prev: undefined,
+        next: totalPages > 1 ? blogUrls.tagPage(tag, 2) : undefined,
+        first: blogUrls.tag(tag),
+        last: blogUrls.tagPage(tag, totalPages),
+      },
+    };
+
+    return {
+      params: { tag: tagSlug },
+      props: { page, tag },
+    };
+  });
+}
+
+const { page, tag } = Astro.props;
+
+// Clean SEO Metadata without site title append logic
+const tagSeo = {
+  title: `Articles tagged #${tag}`,
+  description: `Browse all articles, insights, and guides tagged with #${tag}.`,
+  keywords: [tag.toLowerCase(), "blog tags", "articles", "insights"],
+};
+
+// CollectionPage JSON-LD Schema
+const tagCollectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": tagSeo.title,
+  "description": tagSeo.description,
+  "url": new URL(blogUrls.tag(tag), site.url).toString(),
+};
+---
+
+<BlogListLayout 
+  page={page} 
+  tag={tag} 
+  seo={tagSeo}
+  schemas={[tagCollectionSchema]}
+/>

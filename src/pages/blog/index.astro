@@ -1,0 +1,68 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import type { Page } from "astro";
+
+import BlogListLayout from "@/components/blog/BlogListLayout.astro";
+import site from "@/config/site";
+import { nav } from "@/config/navigation";
+import { POSTS_PER_PAGE } from "@/components/blog/settings";
+
+
+type BlogPost = CollectionEntry<"blog">;
+
+//POSTS_PER_PAGE = POSTS_PER_PAGE+1;
+
+const allPosts = await getCollection("blog");
+
+const sortedPosts = allPosts
+  .filter((post) => {
+    const pubDate = new Date(post.data.pubDate);
+    return !post.data.draft && pubDate <= new Date();
+  })
+  .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
+const pageOnePosts = sortedPosts.slice(0, POSTS_PER_PAGE);
+
+// Construct complete Page object including TypeScript 'first' and 'last' properties
+const page: Page<BlogPost> = {
+  data: pageOnePosts,
+  start: 0,
+  end: Math.min(POSTS_PER_PAGE, pageOnePosts.length) - 1,
+  total: sortedPosts.length,
+  currentPage: 1,
+  size: POSTS_PER_PAGE,
+  lastPage: totalPages,
+  url: {
+    current: nav.blog.href,
+    prev: undefined,
+    next: totalPages > 1 ? nav.blog.href+"/page/2" : undefined,
+    first: nav.blog.href,
+    last: totalPages > 1 ? nav.blog.href+`/page/${totalPages}` : nav.blog.href,
+  },
+};
+
+// SEO Metadata for Blog Root Directory
+const blogSeo = {
+  title: "Blog",
+  description: "",
+  keywords: [
+    "",
+  ],
+};
+
+// CollectionPage JSON-LD Schema
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": blogSeo.title,
+  "description": blogSeo.description,
+  "url": new URL(nav.blog.href, site.url).toString(),
+};
+---
+
+<BlogListLayout 
+  page={page} 
+  seo={blogSeo}
+  schemas={[collectionSchema]}
+/>

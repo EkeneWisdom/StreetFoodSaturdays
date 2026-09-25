@@ -1,0 +1,6 @@
+---
+import NavbarShell from "@/components/layout/NavbarShell";
+const pathname = Astro.url.pathname;
+---
+
+<NavbarShell pathname={pathname} client:load />

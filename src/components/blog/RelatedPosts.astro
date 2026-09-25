@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BlogCard from "@/components/blog/BlogCard.astro";
+
+type BlogPost = CollectionEntry<"blog">;
+
+interface Props {
+  posts: BlogPost[];
+}
+
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="mx-auto mt-16 border-t border-border pt-12">
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-wider text-primary">
+        Keep reading
+      </p>
+
+      <h2 class="mt-2 text-2xl font-bold tracking-tight md:text-3xl">
+        Related articles
+      </h2>
+    </div>
+
+    <div class="mt-8 grid gap-6 md:grid-cols-3">
+      {posts.map((post) => (
+        <BlogCard post={post} />
+      ))}
+    </div>
+  </section>
+)}

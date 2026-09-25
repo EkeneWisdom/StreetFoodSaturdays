@@ -1,0 +1,108 @@
+---
+import { ChevronRight, House } from "lucide-react";
+import { cn } from "@/lib/cn";
+import site from "@/config/site";
+import { absolute } from "@/lib/seo/urls";
+
+export interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items?: BreadcrumbItem[];
+  className?: string;
+  showHome?: boolean;
+}
+
+const { items, className, showHome = true } = Astro.props;
+
+function titleCase(value: string) {
+  return decodeURIComponent(value)
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (m) => m.toUpperCase());
+}
+
+// Automatically infer breadcrumbs from current Astro URL if items aren't manually passed
+const pathname = Astro.url.pathname;
+const autoItems: BreadcrumbItem[] = pathname
+  .split("/")
+  .filter(Boolean)
+  .map((segment, index, array) => ({
+    label: titleCase(segment),
+    href: "/" + array.slice(0, index + 1).join("/"),
+  }));
+
+const breadcrumbs = items ?? autoItems;
+
+// Build Schema.org BreadcrumbList JSON-LD for Search Engines
+const schemaList = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    ...(showHome
+      ? [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": new URL("/", site.url).toString(),
+          },
+        ]
+      : []),
+    ...breadcrumbs.map((item, index) => ({
+      "@type": "ListItem",
+      "position": showHome ? index + 2 : index + 1,
+      "name": item.label,
+      ...(item.href && {
+        "item": absolute(item.href)
+      }),
+    })),
+  ],
+};
+---
+
+<nav aria-label="Breadcrumb" class={cn("m-0 flex items-center text-sm text-text-muted", className)}>
+  <ol class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+    {
+      showHome && (
+        <li>
+          <a
+            href="/"
+            aria-label="Home"
+            class="flex items-center transition-colors hover:text-primary"
+          >
+            <House size={16} />
+          </a>
+        </li>
+      )
+    }
+
+    {
+      breadcrumbs.map((item, index) => {
+        const isLast = index === breadcrumbs.length - 1;
+
+        return (
+          <li class="flex items-center gap-1.5 sm:gap-2">
+            {/* Show arrow before every item (or after Home if Home is enabled) */}
+            {(showHome || index > 0) && (
+              <ChevronRight size={14} className="text-text-muted/60 shrink-0" />
+            )}
+
+            {isLast || !item.href ? (
+              <span class="font-medium text-text truncate max-w-[200px] sm:max-w-none" aria-current="page">
+                {item.label}
+              </span>
+            ) : (
+              <a href={item.href} class="transition-colors hover:text-primary">
+                {item.label}
+              </a>
+            )}
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(schemaList)} />

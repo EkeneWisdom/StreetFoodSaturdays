@@ -1,0 +1,81 @@
+---
+export type CollectionFilter = 'browse' | 'category' | 'tag' | 'search';
+
+interface Props {
+  activeFilter?: CollectionFilter;
+  activeValue?: string;
+}
+
+const { activeFilter = 'browse', activeValue } = Astro.props;
+
+const isBrowseActive = activeFilter === 'browse';
+const isCategoryActive = activeFilter === 'category';
+const isTagActive = activeFilter === 'tag';
+const isSearchActive = activeFilter === 'search'; 
+
+const baseItemClass =
+  'inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md transition-colors duration-150 ease-in-out';
+  
+// Subtle brand-toned hover state
+const inactiveClass =
+  'text-text-muted hover:text-text hover:bg-surface border border-transparent';
+
+// Subtle brand-toned active state
+const activeClass =
+  'bg-surface text-primary border border-border font-semibold shadow-xs';
+---
+
+<nav 
+  aria-label="Collection Filter Menu" 
+  class="blogMenuNav flex items-center justify-between pb-3 my-8 w-full"
+>
+  <!-- Left Navigation: Singular Links -->
+  <div class="flex items-center space-x-1 sm:space-x-2">
+    <a 
+      href="/blog" 
+      class={`${baseItemClass} ${isBrowseActive ? activeClass : inactiveClass}`}
+    >
+      Browse
+    </a>
+
+    <a 
+      href="/blog/category" 
+      class={`${baseItemClass} ${isCategoryActive ? activeClass : inactiveClass}`}
+    >
+      Category
+    </a>
+
+    <a 
+      href="/blog/tag" 
+      class={`${baseItemClass} ${isTagActive ? activeClass : inactiveClass}`}
+    >
+      Tag
+    </a>
+
+    {activeValue && (
+      <span class="hidden sm:inline-flex items-center ml-2 px-2 py-0.5 text-[11px] font-mono rounded-full bg-amber-100/60 dark:bg-amber-900/40 text-amber-900 dark:text-amber-200 border border-amber-800/20 dark:border-amber-200/20">
+        {activeValue}
+      </span>
+    )}
+  </div>
+
+  <!-- Far Right: Search Trigger -->
+  <div>
+    <a 
+      href="/blog/search" 
+      class={`${baseItemClass} ${isSearchActive ? activeClass : inactiveClass} gap-1.5`}
+      aria-label="Search Blog"
+    >
+      <svg 
+        class="w-3.5 h-3.5" 
+        fill="none" 
+        stroke="currentColor" 
+        viewBox="0 0 24 24" 
+        stroke-width="2"
+      >
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+      <span>Search</span>
+    </a>
+  </div>
+</nav>

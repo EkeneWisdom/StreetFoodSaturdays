@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+
+const meta = createMeta({
+  title: "ISO Quality, HSES & Local Content Compliance",
+  description:
+    "Learn about Parkers 1st Engineering Limited's commitment to ISO 9001:2008 quality management standards, HSES environmental policies, and 100% Nigerian Content Act development.",
+  path: "/compliance",
+  keywords: [
+    "ISO 9001:2008 engineering Nigeria",
+    "HSES policy dredging company Nigeria",
+    "Nigerian Content Act NOGICD compliance",
+    "indigenous engineering contractor Awka",
+  ],
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="compliance"
+    client:load
+  />
+</Layout>

@@ -1,0 +1,21 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+import site from "@/config/site";
+
+const companyName = site.company;
+
+const meta = createMeta({
+  title: `Privacy Policy`,
+  description: `Official Privacy Policy and Data Protection standards for ${companyName}. Compliance with NDPA, GDPR, and international data regulations.`,
+  path: "/privacy",
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="privacy"
+    client:load
+  />
+</Layout>

@@ -1,0 +1,222 @@
+---
+// src/components/blog/Search.astro
+const pagefindPath = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/pagefind/`;
+---
+
+<div class="mx-auto w-full max-w-3xl px-4">
+
+  <!-- Search Input Wrapper -->
+  <div class="relative w-full">
+    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-6 text-text-muted">
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 1114 0z" />
+      </svg>
+    </div>
+
+    <input
+      type="text"
+      id="custom-search-input"
+      placeholder="Search articles by title, content, category, or tag..."
+      class="w-full rounded-2xl border border-border bg-surface py-4 pl-15 pr-15 text-lg text-text shadow-sm transition-all focus:border-secondary focus:outline-none focus:ring-2 focus:ring-secondary/20"
+      autocomplete="off"
+    />
+
+    <button
+      id="custom-search-clear"
+      type="button"
+      class="hidden absolute inset-y-0 right-0 flex items-center pr-7 text-text-muted hover:text-secondary text-lg font-bold transition-colors cursor-pointer"
+      aria-label="Clear search"
+    >
+      ✕
+    </button>
+  </div>
+
+  <div id="custom-search-status" class="mt-4 text-sm font-medium text-text-muted px-1"></div>
+  <div id="custom-search-results" class="mt-4 space-y-4"></div>
+</div>
+
+<script is:inline define:vars={{ pagefindPath }}>
+  function initSearch() {
+    const input = document.getElementById("custom-search-input");
+    const clearBtn = document.getElementById("custom-search-clear");
+    const statusContainer = document.getElementById("custom-search-status");
+    const resultsContainer = document.getElementById("custom-search-results");
+
+    if (!input) return;
+
+    let pagefind = null;
+    let loadingPromise = null;
+    const isLocalhost = Boolean(
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1" ||
+      window.location.hostname.endsWith(".local")
+    );
+
+    // Helper to format string into URL-friendly slug
+    function slugify(text) {
+      return text
+        .toString()
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-');
+    }
+
+    async function loadPagefind() {
+      if (pagefind) return pagefind;
+      if (loadingPromise) return loadingPromise;
+
+      loadingPromise = (async () => {
+        const candidatePaths = [
+          `${pagefindPath}pagefind.js`,
+          "/pagefind/pagefind.js",
+          "/_pagefind/pagefind.js"
+        ];
+
+        for (const path of candidatePaths) {
+          try {
+            const instance = await import(/* @vite-ignore */ path);
+            if (instance?.init) {
+              await instance.init();
+            }
+            if (instance?.search) {
+              pagefind = instance;
+              return pagefind;
+            }
+          } catch {
+            // Silently try next fallback path
+          }
+        }
+
+        return null;
+      })();
+
+      return loadingPromise;
+    }
+
+    async function performSearch(query) {
+      const cleanQuery = query.trim();
+
+      if (!cleanQuery) {
+        if (resultsContainer) resultsContainer.innerHTML = "";
+        if (statusContainer) statusContainer.innerHTML = "";
+        if (clearBtn) clearBtn.classList.add("hidden");
+        return;
+      }
+
+      if (clearBtn) clearBtn.classList.remove("hidden");
+      
+      const instance = await loadPagefind();
+
+      if (!instance) {
+        if (resultsContainer) {
+          const fallbackMessage = isLocalhost
+            ? `Search is available after running <code class="text-secondary">npm run build</code>.`
+            : `Search is temporarily unavailable. Please try again later.`;
+
+          resultsContainer.innerHTML = `
+            <div class="rounded-xl border border-border bg-surface p-6 text-center text-text-muted">
+              ${fallbackMessage}
+            </div>
+          `;
+        }
+        return;
+      }
+
+      const search = await instance.search(cleanQuery);
+      const results = await Promise.all(search.results.map((r) => r.data()));
+
+      if (results.length === 0) {
+        if (statusContainer) statusContainer.innerHTML = "";
+        if (resultsContainer) {
+          resultsContainer.innerHTML = `
+            <div class="rounded-xl border border-border bg-surface p-8 text-center text-text-muted max-w-full break-words">
+              No articles found matching "<span class="font-semibold text-text">${cleanQuery}</span>"
+            </div>
+          `;
+        }
+        return;
+      }
+
+      if (statusContainer) {
+        statusContainer.innerHTML = `Found ${results.length} ${results.length === 1 ? "result" : "results"} for "${cleanQuery}"`;
+      }
+
+      const siteOrigin = window.location.origin;
+
+      if (resultsContainer) {
+        resultsContainer.innerHTML = results
+          .map((data) => {
+            const fullUrl = `${siteOrigin}${data.url}`;
+            const title = data.meta?.title || "Untitled Article";
+            const description = data.meta?.description || data.excerpt || "";
+            const category = data.filters?.category?.[0] || "";
+            const tags = data.filters?.tag || [];
+
+            return `
+              <article class="group rounded-xl border border-border bg-surface p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary hover:shadow-soft">
+                <h3 class="font-heading text-xl font-bold text-text mb-2">
+                  <a href="${data.url}" class="group-hover:text-primary transition-colors">
+                    ${title}
+                  </a>
+                </h3>
+
+                ${
+                  category || tags.length > 0
+                    ? `
+                  <div class="flex flex-wrap items-center gap-2 mb-3">
+                    ${
+                      category
+                        ? `<a href="/blog/category/${slugify(category)}" class="rounded-md bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors">${category}</a>`
+                        : ""
+                    }
+                    ${tags
+                      .map(
+                        (tag) =>
+                          `<a href="/blog/tag/${slugify(tag)}" class="rounded-md bg-border/50 px-2 py-0.5 text-xs font-medium text-text-muted hover:bg-border hover:text-text transition-colors">#${tag}</a>`
+                      )
+                      .join("")}
+                  </div>
+                `
+                    : ""
+                }
+
+                ${
+                  description
+                    ? `<p class="text-sm text-text-muted leading-relaxed mb-4">${description}</p>`
+                    : ""
+                }
+
+                <a href="${data.url}" class="inline-block text-xs font-mono text-secondary hover:underline break-all">
+                  ${fullUrl}
+                </a>
+              </article>
+            `;
+          })
+          .join("");
+      }
+    }
+
+    let debounceTimer;
+    input.addEventListener("input", (e) => {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => performSearch(e.target.value), 200);
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener("click", () => {
+        input.value = "";
+        performSearch("");
+        input.focus();
+      });
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSearch);
+  } else {
+    initSearch();
+  }
+  document.addEventListener("astro:page-load", initSearch);
+</script>

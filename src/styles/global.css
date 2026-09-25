@@ -1,0 +1,292 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Core */
+  --color-primary: #CC0214;
+  --color-primary-hover: #A30210;
+  --color-secondary: #1A2023;
+  --color-brand: #CC0214;
+  --color-brand-foreground: #FFFFFF;
+  --color-primary-foreground: #FFFFFF;
+
+  /* Surfaces (Light Mode Defaults) */
+  --color-background: var(--bg-color);
+  --color-surface: var(--surface-color);
+  --color-surface-elevated: var(--surface-elevated-color);
+
+  /* Text */
+  --color-text: var(--text-color);
+  --color-text-muted: var(--text-muted-color);
+
+  /* Borders & Accents */
+  --color-border: var(--border-color);
+  --color-hazard: #F59E0B;
+
+  /* Radius System */
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+
+  /* Industrial Grade Shadows */
+  --shadow-soft: 0 4px 20px rgba(26, 32, 35, 0.06);
+  --shadow-card: 0 10px 30px rgba(26, 32, 35, 0.08);
+  --shadow-hover: 0 20px 50px rgba(204, 2, 20, 0.12);
+
+  /* Typography */
+  --font-heading: "Manrope", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Animation */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Explicit CSS Variable Root Definition */
+:root {
+  color-scheme: light;
+  --section-padding: 6rem;
+  --content-max-width: 1280px;
+
+  /* Theme Tokens (Light) */
+  --bg-color: #F8FAFC;
+  --surface-color: #FFFFFF;
+  --surface-elevated-color: #F1F5F9;
+  --text-color: #0F172A;
+  --text-muted-color: #475569;
+  --border-color: #E2E8F0;
+
+  --color-text-primary: #0f172a;
+  --color-text-primary-alt: #ffffff;
+  --logo-url: url('/logo-light.svg');
+}
+
+/* Industrial Dark Theme Switcher */
+html.dark {
+  color-scheme: dark;
+
+  /* Theme Tokens (Dark) */
+  --bg-color: #0B0E11;
+  --surface-color: #14191C;
+  --surface-elevated-color: #1F262B;
+  --text-color: #F1F5F9;
+  --text-muted-color: #94A3B8;
+  --border-color: #262F35;
+
+  --color-primary: #E61E2E;
+  --color-primary-hover: #FF3344;
+
+  --color-text-primary: #f1f5f9;
+  --color-text-primary-alt: #0b0e11;
+  --logo-url: url('/logo-dark.svg');
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: #ffffff;
+  }
+
+  html {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-text;
+    min-height: 100vh;
+    font-family: var(--font-body);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    /* REMOVED transition rules to eliminate flash of unstyled content */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  svg {
+    display: block;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  hr {
+    border: none;
+    height: 1px;
+    background-color: var(--border-color);
+  }
+}
+
+@layer components {
+  .theme-logo {
+    content: var(--logo-url);
+  }
+
+  /* Glassmorphism for Navigation & Overlay Modals */
+  .glass {
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+  }
+
+  html.dark .glass {
+    background: rgba(20, 25, 28, 0.82);
+    border: 1px solid rgba(38, 47, 53, 0.8);
+  }
+
+  /* Article / Tender Document Typography Formatting */
+  .blog-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-text);
+    word-break: break-word;
+  }
+
+  .blog-content h1,
+  .blog-content h2,
+  .blog-content h3,
+  .blog-content h4 {
+    color: var(--color-text);
+    font-weight: 800;
+  }
+
+  .blog-content h2 {
+    font-size: 1.875rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    line-height: 1.25;
+  }
+
+  .blog-content p {
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
+  }
+
+  .blog-content blockquote {
+    border-left: 4px solid var(--color-primary);
+    padding-left: 1.25rem;
+    margin: 2rem 0;
+    font-style: italic;
+    background-color: var(--color-surface-elevated);
+    padding: 1rem 1.25rem;
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+
+  .blog-content a {
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-weight: 600;
+  }
+
+  .blog-content pre {
+    margin: 2rem 0;
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      #E61E2E
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility breadcrumbsBar {
+  @apply border-t border-b border-border;
+}
+
+@utility blogMenuNav {
+  @apply border-b border-border;
+}
+
+/* Skeleton Loading Shimmer Utility */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-surface-elevated);
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: skeleton-shimmer 1.5s linear infinite;
+}
+
+html.dark .skeleton-shimmer::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.05),
+    transparent
+  );
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

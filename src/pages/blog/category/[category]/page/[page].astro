@@ -1,0 +1,62 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import type { GetStaticPaths, Page } from "astro";
+import BlogListLayout from "@/components/blog/BlogListLayout.astro";
+import { POSTS_PER_PAGE } from "@/components/blog/settings";
+import slugify from "@/lib/slugify";
+import site from "@/config/site";
+import blogUrls from "@/components/blog/blogUrls";
+
+type BlogPost = CollectionEntry<"blog">;
+
+interface Props {
+  page: Page<BlogPost>;
+  category: string;
+}
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const allPosts = await getCollection("blog");
+
+  const publishedPosts = allPosts
+    .filter((post) => !post.data.draft && new Date(post.data.pubDate) <= new Date())
+    .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+  const categories = [...new Set(publishedPosts.map((post) => post.data.category))];
+
+  return categories.flatMap((category) => {
+    const categorySlug = slugify(category);
+    const categoryPosts = publishedPosts.filter((post) => post.data.category === category);
+
+    return paginate(categoryPosts, {
+      params: { category: categorySlug },
+      pageSize: POSTS_PER_PAGE,
+      props: { category },
+    });
+  });
+};
+
+const { page, category } = Astro.props;
+
+// Clean, page-aware SEO Metadata
+const categorySeo = {
+  title: `${category} Articles - Page ${page.currentPage}`,
+  description: `Browse page ${page.currentPage} of articles, tutorials, and insights in the ${category} category.`,
+  keywords: [category.toLowerCase(), "blog categories", "articles", "insights"],
+};
+
+// CollectionPage JSON-LD Schema
+const categoryCollectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": categorySeo.title,
+  "description": categorySeo.description,
+  "url": new URL(blogUrls.categoryPage(category, page.currentPage), site.url).toString(),
+};
+---
+
+<BlogListLayout 
+  page={page} 
+  category={category} 
+  seo={categorySeo}
+  schemas={[categoryCollectionSchema]}
+/>

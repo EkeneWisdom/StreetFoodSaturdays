@@ -1,0 +1,54 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import type { GetStaticPaths, Page } from "astro";
+
+import BlogListLayout from "@/components/blog/BlogListLayout.astro";
+import { POSTS_PER_PAGE } from "@/components/blog/settings";
+import blogUrls from "@/components/blog/blogUrls";
+import site from "@/config/site";
+
+type BlogPost = CollectionEntry<"blog">;
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const allPosts = await getCollection("blog");
+
+  const posts = allPosts
+    .filter((post) => {
+      const pubDate = new Date(post.data.pubDate);
+      return !post.data.draft && pubDate <= new Date();
+    })
+    .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+  return paginate(posts, {
+    pageSize: POSTS_PER_PAGE,
+  });
+};
+
+interface Props {
+  page: Page<BlogPost>;
+}
+
+const { page } = Astro.props as Props;
+
+// Page-aware SEO Metadata
+const blogSeo = {
+  title: `Blog - Page ${page.currentPage}`,
+  description: `Browse page ${page.currentPage} of our latest articles, insights, and updates.`,
+  keywords: ["blog", "articles", "insights", "updates"],
+};
+
+// CollectionPage JSON-LD Schema
+const blogCollectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": blogSeo.title,
+  "description": blogSeo.description,
+  "url": new URL(blogUrls.page(page.currentPage), site.url).toString(),
+};
+---
+
+<BlogListLayout 
+  page={page} 
+  seo={blogSeo}
+  schemas={[blogCollectionSchema]}
+/>

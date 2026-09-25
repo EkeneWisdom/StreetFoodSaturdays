@@ -1,0 +1,148 @@
+---
+import "../styles/global.css";
+
+import branding from "@/config/branding";
+import seo from "@/config/seo";
+import site from "@/config/site";
+
+import type { MetaData } from "@/lib/seo/meta";
+import type { BreadcrumbItem } from "@/lib/seo/schema";
+
+import {
+  organizationSchema,
+  localBusinessSchema,
+  websiteSchema,
+  webPageSchema,
+  breadcrumbSchema,
+} from "@/lib/seo/schema";
+
+import { llms } from "@/lib/seo/urls";
+
+import Navbar from "@/layouts/Navbar.astro";
+import Footer from "@/layouts/Footer.astro";
+
+interface Props {
+  meta?: MetaData;
+  schemas?: object[];
+  breadcrumbs?: BreadcrumbItem[];
+  organization?: boolean;
+  localBusiness?: boolean;
+  website?: boolean;
+  ogType?: "website" | "article";
+}
+
+const {
+  meta,
+  schemas = [],
+  breadcrumbs,
+  organization = true,
+  localBusiness = true,
+  website = true,
+  ogType = "website",
+} = Astro.props;
+
+// Dynamic theme storage key derived from branding config
+const themeStorageKey = `${branding.shortName.toLowerCase()}-theme`;
+
+// Title & Description safe-length enforcement
+const rawTitle = meta?.title ?? seo.defaultTitle;
+const title = /*rawTitle.length > 60 ? `${rawTitle.slice(0, 57)}...` :*/ rawTitle;
+
+const rawDescription = meta?.description ?? seo.defaultDescription;
+const description = rawDescription.length > 160 ? `${rawDescription.slice(0, 157)}...` : rawDescription;
+
+const canonicalUrl = meta?.canonical ?? new URL(Astro.url.pathname, site.url).toString();
+const keywords = meta?.keywords ?? seo.keywords.join(", ");
+const robots = meta?.robots ?? "index, follow";
+const language = meta?.language ?? seo.language;
+const locale = meta?.locale ?? seo.locale;
+const author = meta?.author ?? seo.author;
+const siteName = meta?.siteName ?? branding.company;
+const image = meta?.image ?? branding.defaultOgImage;
+
+const structuredSchemas = [
+  ...(organization ? [organizationSchema()] : []),
+  ...(localBusiness ? [localBusinessSchema()] : []),
+  ...(website ? [websiteSchema()] : []),
+  ...(meta ? [webPageSchema({ title, description, path: new URL(canonicalUrl, site.url).pathname })] : []),
+  ...(breadcrumbs ? [breadcrumbSchema(breadcrumbs)] : []),
+  ...schemas,
+];
+---
+
+<!doctype html>
+<html lang={language}>
+  <head>
+    <script is:inline set:html={`
+        (function () {
+          try {
+            var saved = localStorage.getItem("${themeStorageKey}");
+            var activeTheme = saved || "${branding.DEFAULT_THEME}";
+            
+            var systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            var isDark = activeTheme === "dark" || (activeTheme === "system" && systemDark);
+
+            if (isDark) {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
+          } catch (e) {}
+        })();
+      `} />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{title}</title>
+
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content={robots} />
+    <meta name="author" content={author} />
+
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="manifest" href={branding.manifest} />
+
+    <!-- Icons & Brand Colors -->
+    <link rel="icon" type="image/svg+xml" href={branding.favicon} />
+    <link rel="apple-touch-icon" href={branding.appleTouchIcon} />
+    <meta name="theme-color" content={branding.themeColor} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {image && <meta property="og:image" content={image} />}
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={locale} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={image} />}
+
+    <!-- LLM -->
+    <link rel="alternate" type="text/plain" href={llms()} title="LLMs" />
+
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title={`${branding.company} RSS Feed`} href="/rss.xml" />
+
+    <!-- Structured Data -->
+    {structuredSchemas.map((schema, index) => (
+      <script type="application/ld+json" id={`schema-${index}`} set:html={JSON.stringify(schema)} />
+    ))}
+  </head>
+  <!-- REMOVED transition-colors duration-200 to prevent FOUC background animations -->
+  <body class="min-h-screen bg-background text-text antialiased selection:bg-primary selection:text-white">
+    <div class="flex min-h-screen flex-col">
+      <Navbar />
+      <main class="flex-1">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body> 
+</html>

@@ -1,0 +1,238 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Page } from "astro";
+
+import Layout from "@/layouts/Layout.astro";
+import Container from "@/components/ui/Container";
+import Pagination from "@/components/blog/Pagination.astro";
+import BlogCard from "@/components/blog/BlogCard.astro";
+import createMeta from "@/lib/seo/meta";
+import Section from "../ui/Section";
+import Breadcrumbs from "@/components/ui/Breadcrumbs.astro";
+import site from "@/config/site";
+import { blogUrls } from "@/components/blog/blogUrls";
+import CollectionMenu from "@/components/blog/CollectionMenu.astro";
+
+type BlogPost = CollectionEntry<"blog">;
+
+interface Props {
+  page: Page<BlogPost>;
+  category?: string;
+  tag?: string;
+  seo?: {
+    title?: string;
+    description?: string;
+    keywords?: string[];
+  };
+  schemas?: object[];
+}
+
+const { page, category, tag, seo, schemas = [] } = Astro.props;
+const posts: BlogPost[] = page.data;
+const isFirstPage = page.currentPage === 1;
+
+// Single-source route forging
+const basePath = blogUrls.basePath({ category, tag });
+const metaPath = blogUrls.metaPath({ category, tag, page: page.currentPage });
+
+// Title & Meta logic based on Context
+let pageTitle = seo?.title ?? "Business Growth & Digital Presence Insights";
+let pageSubtitle = seo?.description ?? "Practical ideas to help your business get found, build trust, and make it easier for customers to take the next step.";
+
+if (category && !seo?.title) {
+  pageTitle = `${category} Articles`;
+  pageSubtitle = `Explore practical business growth insights categorized under ${category}.`;
+} else if (tag && !seo?.title) {
+  pageTitle = `Articles tagged #${tag}`;
+  pageSubtitle = `Explore articles and guides tagged with #${tag}.`;
+}
+
+// Keywords generation based on state
+const keywords = seo?.keywords ?? [
+  category ? category.toLowerCase() : "business growth",
+  tag ? `#${tag.toLowerCase()}` : "sales automation",
+  "pipeline strategies",
+  "digital presence",
+];
+
+// Only show Featured Post on main /blog page 1
+const featuredPost = (isFirstPage && !category && !tag)
+  ? posts.find((post) => post.data.featured) ?? posts[0]
+  : null;
+
+const remainingPosts = featuredPost
+  ? posts.filter((post) => post.id !== featuredPost.id)
+  : posts;
+
+const meta = createMeta({
+  /*title: isFirstPage ? pageTitle : `${pageTitle} — Page ${page.currentPage}`,*/
+    title: pageTitle,
+  description: pageSubtitle,
+  keywords: keywords,
+  path: metaPath,
+});
+
+// Clean Dynamic Breadcrumbs
+const breadcrumbItems = [
+  { label: "Blog", href: blogUrls.root() },
+];
+
+if (category) {
+  breadcrumbItems.push({
+    label: "Categories",
+    href: blogUrls.categoriesIndex(),
+  });
+  breadcrumbItems.push({
+    label: category,
+    href: blogUrls.category(category),
+  });
+} else if (tag) {
+  breadcrumbItems.push({
+    label: "Tags",
+    href: blogUrls.tagsIndex(),
+  });
+  breadcrumbItems.push({
+    label: `#${tag}`,
+    href: blogUrls.tag(tag),
+  });
+}
+
+if (!isFirstPage) {
+  breadcrumbItems.push({
+    label: `Page ${page.currentPage}`,
+    href: metaPath,
+  });
+}
+
+// ItemList Schema
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": posts.map((post, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "url": new URL(blogUrls.post(post.id), site.url).toString(),
+    "name": post.data.title,
+  })),
+};
+
+const finalSchemas = [itemListSchema, ...schemas];
+---
+
+<Layout
+  meta={meta}
+  schemas={finalSchemas}
+  organization={isFirstPage && !category && !tag}
+  localBusiness={false}
+>
+  <Section size="xslim" className="breadcrumbsBar">
+    <Container>
+      <Breadcrumbs items={breadcrumbItems} />
+    </Container>
+  </Section>
+
+  <section class="py-12 md:py-20">
+    <Container>
+      <!-- INTRO -->
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="text-sm font-semibold uppercase tracking-wider text-primary">
+          {category ? `Category` : tag ? `Tag` : `Blog`}
+        </p>
+        <h1 class="mt-3 text-3xl font-bold tracking-tight md:text-5xl">
+          {pageTitle}
+        </h1>
+        <p class="mt-4 text-base text-text-muted md:text-lg">
+          {pageSubtitle}
+        </p>
+        {/*
+        <div class="my-6 flex justify-center">
+          <a
+            href={blogUrls.search()}
+            class="inline-flex items-center gap-2 rounded-lg border border-border bg-surface px-4 py-2 text-sm text-text-muted hover:border-primary hover:text-primary transition"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 1114 0z"/>
+            </svg>
+            <span>Search articles...</span>
+          </a>
+        </div>*/}
+        {/* Active filter: 'all' (Browse) */}
+        <CollectionMenu activeFilter="browse" />
+      </div>
+
+      <!-- FEATURED POST -->
+      {featuredPost && (
+        <article class="mx-auto mt-12">
+          <a
+            href={blogUrls.post(featuredPost.id)}
+            class="group block overflow-hidden rounded-2xl border border-border bg-surface transition hover:-translate-y-1 hover:shadow-lg"
+          >
+            <div class="grid md:grid-cols-2">
+              <div class="aspect-[16/10] overflow-hidden bg-muted md:aspect-auto">
+                {featuredPost.data.heroImage ? (
+                  <img
+                    src={featuredPost.data.heroImage}
+                    alt={featuredPost.data.title}
+                    loading="eager"
+                    class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+                  />
+                ) : (
+                  <div class="flex h-full min-h-64 items-center justify-center bg-primary/10">
+                    <span class="text-sm font-medium text-primary">Featured Article</span>
+                  </div>
+                )}
+              </div>
+
+              <div class="flex flex-col justify-center p-8 md:p-10">
+                <div class="flex flex-wrap items-center gap-3 text-sm text-text-muted">
+                  <span class="font-medium text-primary">{featuredPost.data.category}</span>
+                  <span>•</span>
+                  <time datetime={featuredPost.data.pubDate.toISOString()}>
+                    {featuredPost.data.pubDate.toLocaleDateString("en-NG", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </time>
+                </div>
+                <h2 class="mt-4 text-2xl font-bold tracking-tight group-hover:text-primary md:text-3xl">
+                  {featuredPost.data.title}
+                </h2>
+                <p class="mt-4 text-text-muted">{featuredPost.data.description}</p>
+                <span class="mt-6 font-semibold text-primary">Read article →</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      )}
+
+      <!-- POSTS GRID -->
+      {remainingPosts.length > 0 && (
+        <div class="mt-12">
+          {!featuredPost && (
+            <div class="mb-6">
+              <p class="text-sm font-semibold uppercase tracking-wider text-primary">
+                {isFirstPage ? "Articles" : `Page ${page.currentPage}`}
+              </p>
+            </div>
+          )}
+
+          <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {remainingPosts.map((post) => (
+              <BlogCard post={post} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- PAGINATION -->
+      <Pagination
+        currentPage={page.currentPage}
+        lastPage={page.lastPage}
+        prevUrl={page.currentPage === 2 ? basePath : (page.url.prev ? page.url.prev.replace(/\/$/, '') : undefined)}
+        nextUrl={page.url.next ? page.url.next.replace(/\/$/, '') : undefined}
+        baseUrl={basePath}
+      />
+    </Container>
+  </section>
+</Layout>

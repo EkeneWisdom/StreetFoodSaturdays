@@ -1,0 +1,49 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+
+const items = headings.filter(
+  (heading) => heading.depth === 2 || heading.depth === 3,
+);
+---
+
+{items.length > 0 && (
+  <aside class="lg:sticky lg:top-28">
+    <details
+      open
+      class="details-toggle rounded-sm border border-border bg-surface"
+    >
+      <summary class="cursor-pointer px-4 py-3 text-sm font-semibold">
+        Table of Contents
+      </summary>
+
+      <nav
+        class="border-t border-border px-4 py-3"
+        aria-label="Table of contents"
+      >
+        <ul class="space-y-2 text-sm">
+          {items.map((item) => (
+            <li class:list={[item.depth === 3 && "pl-3"]}>
+              <a
+                href={`#${item.slug}`}
+                class="text-text-muted transition-colors hover:text-primary"
+              >
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+  </aside>
+  <script is:inline>if (window.innerWidth < 768) {document.getElementById('toc-details')?.removeAttribute('open');}</script>
+)}

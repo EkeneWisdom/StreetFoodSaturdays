@@ -1,0 +1,77 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import type { Page } from "astro";
+import BlogListLayout from "@/components/blog/BlogListLayout.astro";
+import { POSTS_PER_PAGE } from "@/components/blog/settings";
+import site from "@/config/site";
+import blogUrls from "@/components/blog/blogUrls";
+import slugify from "@/lib/slugify";
+
+type BlogPost = CollectionEntry<"blog">;
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+  const publishedPosts = allPosts.filter(
+    (post) => !post.data.draft && new Date(post.data.pubDate) <= new Date()
+  );
+
+  const categories = [...new Set(publishedPosts.map((post) => post.data.category))];
+
+  return categories.map((category) => {
+    const categorySlug = slugify(category);
+    const categoryPosts = publishedPosts
+      .filter((post) => post.data.category === category)
+      .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+    const totalPages = Math.ceil(categoryPosts.length / POSTS_PER_PAGE);
+    const pageOnePosts = categoryPosts.slice(0, POSTS_PER_PAGE);
+
+    const page: Page<BlogPost> = {
+      data: pageOnePosts,
+      start: 0,
+      end: Math.min(POSTS_PER_PAGE, pageOnePosts.length) - 1,
+      total: categoryPosts.length,
+      currentPage: 1,
+      size: POSTS_PER_PAGE,
+      lastPage: totalPages,
+      url: {
+        current: blogUrls.category(category),
+        prev: undefined,
+        next: totalPages > 1 ? blogUrls.categoryPage(category, 2) : undefined,
+        first: blogUrls.category(category),
+        last: blogUrls.categoryPage(category, totalPages),
+      },
+    };
+
+    return {
+      params: { category: categorySlug },
+      props: { page, category },
+    };
+  });
+}
+
+const { page, category } = Astro.props;
+
+// Clean SEO Metadata without site title append logic
+const categorySeo = {
+  title: `${category} Articles`,
+  description: `Explore all articles, tutorials, and insights in the ${category} category.`,
+  keywords: [category.toLowerCase(), "blog categories", "articles", "insights"],
+};
+
+// CollectionPage JSON-LD Schema
+const categoryCollectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": categorySeo.title,
+  "description": categorySeo.description,
+  "url": new URL(blogUrls.category(category), site.url).toString(),
+};
+---
+
+<BlogListLayout 
+  page={page} 
+  category={category} 
+  seo={categorySeo}
+  schemas={[categoryCollectionSchema]}
+/>

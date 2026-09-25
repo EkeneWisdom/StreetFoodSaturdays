@@ -1,0 +1,21 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+import site from "@/config/site";
+
+const companyName = site.company;
+
+const meta = createMeta({
+  title: `Terms of Service`,
+  description: `Official Terms of Service and legal framework for commercial interactions, procurement inquiries, and digital platform usage at ${companyName}.`,
+  path: "/terms",
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="terms"
+    client:load
+  />
+</Layout>

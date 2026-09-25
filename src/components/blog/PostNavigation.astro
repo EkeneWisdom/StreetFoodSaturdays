@@ -1,0 +1,87 @@
+---
+import type { CollectionEntry } from "astro:content";
+import blogUrls from "@/components/blog/blogUrls";
+
+type BlogPost = CollectionEntry<"blog">;
+
+interface Props {
+  previous?: BlogPost;
+  next?: BlogPost;
+}
+
+const { previous, next } = Astro.props;
+---
+
+{(previous || next) && (
+  <nav
+    aria-label="Article navigation"
+    class="grid gap-4 sm:grid-cols-2"
+  >
+    <!-- PREVIOUS ARTICLE -->
+    {previous && (
+      <a
+        href={blogUrls.post(previous.id)}
+        class="
+          group
+          flex
+          flex-col
+          justify-between
+          rounded-2xl
+          border
+          border-border
+          bg-surface
+          p-5
+          transition-all
+          duration-200
+          hover:-translate-y-0.5
+        "
+      >
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-text-muted group-hover:text-primary">
+            <span class="transition-transform duration-200 group-hover:-translate-x-1">←</span>
+            Previous article
+          </span>
+
+          <h3 class="mt-2 font-semibold tracking-tight text-text-main line-clamp-2 group-hover:text-primary">
+            {previous.data.title}
+          </h3>
+        </div>
+      </a>
+    )}
+
+    <!-- NEXT ARTICLE -->
+    {next && (
+      <a
+        href={blogUrls.post(next.id)}
+        class={`
+          group
+          flex
+          flex-col
+          justify-between
+          rounded-2xl
+          border
+          border-border
+          bg-surface
+          p-5
+          text-left
+          transition-all
+          duration-200
+          hover:-translate-y-0.5
+          sm:text-right
+          ${!previous ? "sm:col-start-2" : ""}
+        `}
+      >
+        <div>
+          <span class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-text-muted group-hover:text-primary sm:flex-row-reverse">
+            <span class="transition-transform duration-200 group-hover:translate-x-1">→</span>
+            Next article
+          </span>
+
+          <h3 class="mt-2 font-semibold tracking-tight text-text-main line-clamp-2 group-hover:text-primary">
+            {next.data.title}
+          </h3>
+        </div>
+      </a>
+    )}
+  </nav>
+)}

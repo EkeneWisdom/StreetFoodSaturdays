@@ -1,0 +1,27 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+
+const meta = createMeta({
+  title: "Contact Us",
+  description:
+    "Get in touch with Parkers 1st Engineering Limited (PEL) for equipment leasing, civil construction inquiries, dredging consultations, and procurement tenders in Nigeria.",
+  path: "/contact",
+  keywords: [
+    "Contact Parkers 1st Engineering",
+    "PEL Nigeria head office",
+    "heavy equipment leasing contact Nigeria",
+    "civil engineering tenders Nigeria",
+    "dredging consultation Nigeria",
+    "Parkers 1st Engineering Limited email",
+  ],
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="contact"
+    client:load
+  />
+</Layout>

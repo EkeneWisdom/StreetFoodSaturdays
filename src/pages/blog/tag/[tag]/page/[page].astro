@@ -1,0 +1,62 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import type { GetStaticPaths, Page } from "astro";
+import BlogListLayout from "@/components/blog/BlogListLayout.astro";
+import { POSTS_PER_PAGE } from "@/components/blog/settings";
+import slugify from "@/lib/slugify";
+import site from "@/config/site";
+import blogUrls from "@/components/blog/blogUrls";
+
+type BlogPost = CollectionEntry<"blog">;
+
+interface Props {
+  page: Page<BlogPost>;
+  tag: string;
+}
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  const allPosts = await getCollection("blog");
+
+  const publishedPosts = allPosts
+    .filter((post) => !post.data.draft && new Date(post.data.pubDate) <= new Date())
+    .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+  const tags = [...new Set(publishedPosts.flatMap((post) => post.data.tags))];
+
+  return tags.flatMap((tag) => {
+    const tagSlug = slugify(tag);
+    const tagPosts = publishedPosts.filter((post) => post.data.tags.includes(tag));
+
+    return paginate(tagPosts, {
+      params: { tag: tagSlug },
+      pageSize: POSTS_PER_PAGE,
+      props: { tag },
+    });
+  });
+};
+
+const { page, tag } = Astro.props;
+
+// Clean, page-aware SEO Metadata without site title append logic
+const tagSeo = {
+  title: `Articles tagged #${tag} - Page ${page.currentPage}`,
+  description: `Browse page ${page.currentPage} of articles, insights, and guides tagged with #${tag}.`,
+  keywords: [tag.toLowerCase(), "blog tags", "articles", "insights"],
+};
+
+// CollectionPage JSON-LD Schema
+const tagCollectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": tagSeo.title,
+  "description": tagSeo.description,
+  "url": new URL(blogUrls.tagPage(tag, page.currentPage), site.url).toString(),
+};
+---
+
+<BlogListLayout 
+  page={page} 
+  tag={tag} 
+  seo={tagSeo}
+  schemas={[tagCollectionSchema]}
+/>
