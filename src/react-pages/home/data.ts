@@ -13,14 +13,16 @@ import {
   HeartHandshake
 } from "lucide-react";
 
+import { nav } from "@/config/navigation";
+
 export const homeData = {
   hero: {
     badge: "Golden Spring, Mt. James • Every Saturday",
     title: "Woodfire Smoke. Crystal Waters. Pure Vibe.",
     subtitle:
       "Escape the city heat for Jamaica's premier riverside culinary sanctuary. Where pimento-smoked jerk chicken meets cool natural spring streams.",
-    primaryCta: { text: "Reserve A Riverside Table", href: "/reservations" },
-    secondaryCta: { text: "Explore Food Menu", href: "/menu" },
+    primaryCta: { text: "Reserve A Riverside Table", href: nav?.reservation?.href },
+    secondaryCta: { text: "Explore Food Menu", href: nav?.menu?.href },
     stats: [
       { value: "100%", label: "Real Woodfire Smoke" },
       { value: "4.9 ★", label: "Guest Vibe Rating" },
