@@ -52,8 +52,8 @@ export default function MobileDrawer({
   }, [open, onClose]);
 
   // Reservation CTA Target & WhatsApp Link
-  const reservationHref = nav?.reservations?.href ?? "/#reservations";
-  const reservationTitle = nav?.reservations?.title ?? "Reserve Platter";
+  const reservationHref = nav?.reservation?.href ?? "#";
+  const reservationTitle = nav?.reservation?.title ?? "Reserve Platter";
   const whatsappUrl = contact?.whatsappHref || (contact?.phone ? `https://wa.me/${String(contact.phone).replace(/\D/g, "")}` : "#");
 
   return (
@@ -173,7 +173,7 @@ export default function MobileDrawer({
                     )}
 
                     <a
-                      href="/#location"
+                      href={nav?.location?.href}
                       onClick={onClose}
                       className="flex items-center justify-between rounded-xl border border-border/60 bg-surface-elevated/40 p-3 text-xs font-semibold text-text transition-colors hover:border-primary hover:text-primary"
                     >
