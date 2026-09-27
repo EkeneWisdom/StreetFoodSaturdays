@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+
+const meta = createMeta({
+  title: "Location & Driving Guide",
+  description:
+    "Get turn-by-turn driving directions from Manor Park to Golden Spring, Mt. James. View parking details, transport options, and offline GPS route tips.",
+  path: "/location",
+  keywords: [
+    "How to get to Golden Spring St Andrew",
+    "Street Food Saturdays driving directions",
+    "Manor Park to Mt James route",
+    "Golden Spring river restaurant parking",
+  ],
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="location"
+    client:load
+  />
+</Layout>

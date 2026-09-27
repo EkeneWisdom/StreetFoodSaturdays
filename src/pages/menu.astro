@@ -1,0 +1,26 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+
+const meta = createMeta({
+  title: "Woodfire & River Menu",
+  description:
+    "Explore our mouth-watering menu of pimento-smoked jerk chicken, grilled Caribbean lobster, escovitch snapper, craft rum punch, and sweet cornmeal festivals.",
+  path: "/menu",
+  keywords: [
+    "Street Food Saturdays menu",
+    "Jamaican jerk chicken menu",
+    "Golden Spring lobster pricing",
+    "Woodfire barbecue Jamaica menu",
+    "Rum punch Golden Spring",
+  ],
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="menu"
+    client:load
+  />
+</Layout>

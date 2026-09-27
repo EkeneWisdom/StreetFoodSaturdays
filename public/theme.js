@@ -1,6 +1,6 @@
 (() => {
 
-const saved=localStorage.getItem("parkers1st");
+const saved=localStorage.getItem("SFS");
 
 const system=window.matchMedia("(prefers-color-scheme:dark)").matches;
 

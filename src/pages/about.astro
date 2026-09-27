@@ -1,0 +1,26 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+
+const meta = createMeta({
+  title: "About Us",
+  description:
+    "Learn about the story behind Street Food Saturdays—our authentic woodfire grilling techniques, riverfront location at Golden Spring, Mt. James, and community roots.",
+  path: "/about",
+  keywords: [
+    "About Street Food Saturdays",
+    "Woodfire grill Jamaica story",
+    "Golden Spring Mt James history",
+    "Jamaican riverfront barbecue",
+    "St Andrew Jamaican street food",
+  ],
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="about"
+    client:load
+  />
+</Layout>

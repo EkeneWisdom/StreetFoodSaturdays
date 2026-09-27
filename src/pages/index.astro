@@ -1,56 +1,26 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import PageShell from "@/components/layout/PageShell";
+import HomePage from "@/react-pages/home";
 import { createMeta } from "@/lib/seo/meta";
 
 const meta = createMeta({
-  title: "Marine, Civil & Energy Services Nigeria",
+  title: "Woodfire & River Dining in Golden Spring",
   description:
-    "Parkers 1st Engineering Limited (PEL) is a leading 100% indigenous engineering company in Nigeria specializing in dredging, shoreline protection, piling, civil construction, and heavy machinery leasing.",
+    "Experience Jamaica's premier riverside culinary sanctuary in Golden Spring, Mt. James. Enjoy pimento-smoked jerk chicken, grilled lobster, and cold spring water dips every Saturday.",
   path: "/",
   keywords: [
-    "Parkers 1st Engineering Limited",
-    "dredging company Nigeria",
-    "shoreline protection Nigeria",
-    "heavy equipment leasing Nigeria",
-    "civil engineering construction Nigeria",
-    "indigenous oil and gas servicing firm",
+    "Street Food Saturdays",
+    "Golden Spring river restaurant",
+    "Jerk chicken Mt James",
+    "Riverside dining Kingston Jamaica",
+    "Jamaica Saturday food event",
   ],
 });
 ---
-
 <Layout meta={meta}>
   <PageShell
     page="home"
     client:load
   />
 </Layout>
-
-
-{/*
----
-import Layout from "@/layouts/Layout.astro";
-import PageShell from "@/components/layout/PageShell";
-
-import { createMeta } from "@/lib/seo/meta";
-
-const meta = createMeta({
-  title: "Business Growth Through Tech",
-  description:
-    "Sure Pipeline helps businesses build a stronger digital presence through website design, Google Business Profile, local SEO, social media pages, WhatsApp Business, and digital integration.",
-  path: "/",
-  keywords: [
-    "business growth through technology",
-    "digital presence",
-    "web design Nigeria",
-  ],
-});
----
-
-<Layout meta={meta}>
-  <PageShell
-    page="home"
-    client:load
-  />
-</Layout>
-*/}

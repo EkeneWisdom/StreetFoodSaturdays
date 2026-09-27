@@ -1,0 +1,27 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import ExperiencePage from "@/react-pages/experience";
+import { createMeta } from "@/lib/seo/meta";
+
+const meta = createMeta({
+  title: "The Experience",
+  description:
+    "Discover the sensory journey at Street Food Saturdays in Golden Spring, Mt. James. Crystal spring river waters, live woodfire smoke, authentic Jamaican music, and nightfall ambiance.",
+  path: "/experience",
+  keywords: [
+    "Street Food Saturdays experience",
+    "Golden Spring river dining atmosphere",
+    "Mt James weekend vibe",
+    "Jamaican river bar experience",
+    "Woodfire grill riverfront Jamaica",
+  ],
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="experience"
+    client:load
+  />
+</Layout>

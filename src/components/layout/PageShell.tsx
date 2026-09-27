@@ -5,14 +5,13 @@ import AppProviders from "@/components/layout/AppProviders";
 import HomePage from "@/react-pages/home";
 import PrivacyPage from "@/react-pages/privacy";
 import TermsPage from "@/react-pages/terms";
-import ServicesPage from "@/react-pages/services";
+import MenuPage from "@/react-pages/menu";
 import AboutPage from "@/react-pages/about";
 import ContactPage from "@/react-pages/contact";
-import FleetPage from "@/react-pages/fleet";
-import ProjectsPage from "@/react-pages/projects";
-import CompliancePage from "@/react-pages/compliance";
-import galleryPage from "@/react-pages/gallery";
-import careersPage from "@/react-pages/careers";
+import GuidePage from "@/react-pages/guide";
+import ExperiencePage from "@/react-pages/experience";
+import ReservationPage from "@/react-pages/reservation";
+import LocationPage from "@/react-pages/location";
 //import FAQPage from "@/react-pages/faq";
 
 type PageKey = NavigationItem["key"];
@@ -20,17 +19,16 @@ type PageKey = NavigationItem["key"];
 // Accept any props dynamically
 const pages: Record<string, ComponentType<any>> = {
   home: HomePage,
-  services: ServicesPage,
+  menu: MenuPage,
   about: AboutPage,
-  fleet: FleetPage,
-  projects: ProjectsPage,
-  compliance: CompliancePage,
+  guide: GuidePage,
+  experience: ExperiencePage,
+  reservation: ReservationPage,
   //faq: FAQPage,
   contact: ContactPage,
   privacy: PrivacyPage,
   terms: TermsPage,
-  gallery: galleryPage,
-  careers: careersPage,
+  location: LocationPage,
 };
 
 interface PageShellProps {

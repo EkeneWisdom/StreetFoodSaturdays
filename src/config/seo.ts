@@ -9,7 +9,7 @@ export const seo = {
 
   titleSeparator: "|",
 
-  defaultDescription: site.description,
+  defaultDescription: site.description, 
 
   locale: site.locale,
 

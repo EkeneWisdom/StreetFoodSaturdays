@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { 
   ChevronDown, 
-  ArrowRight 
+  ArrowRight,
+  Flame,
+  Utensils,
+  MapPin,
+  CalendarCheck,
+  Sparkles,
+  BookOpen,
+  Waves,
+  Info
 } from "lucide-react";
 
 import type { NavigationItem } from "@/config/navigation";
@@ -13,6 +21,34 @@ interface MobileNavItemProps {
   item: NavigationItem;
   onNavigate: () => void;
   pathname?: string;
+}
+
+// Fallback icon resolver tailored for Street Food Saturdays
+function resolveItemIcon(title: string, key?: string) {
+  const normalized = (title || key || "").toLowerCase();
+
+  if (normalized.includes("menu") || normalized.includes("food") || normalized.includes("platter")) {
+    return Utensils;
+  }
+  if (normalized.includes("reserve") || normalized.includes("book") || normalized.includes("table")) {
+    return CalendarCheck;
+  }
+  if (normalized.includes("experience") || normalized.includes("river") || normalized.includes("vibe")) {
+    return Waves;
+  }
+  if (normalized.includes("location") || normalized.includes("map") || normalized.includes("directions")) {
+    return MapPin;
+  }
+  if (normalized.includes("blog") || normalized.includes("story") || normalized.includes("journal")) {
+    return BookOpen;
+  }
+  if (normalized.includes("about") || normalized.includes("chef")) {
+    return Flame;
+  }
+
+  // Fallback to imported service helper or default Sparkles
+  const customIcon = getServiceIcon(title || "");
+  return customIcon || Sparkles;
 }
 
 export default function MobileNavItem({
@@ -40,12 +76,12 @@ export default function MobileNavItem({
 
   const hasChildren = Boolean(item.children?.length);
 
-  // Use exact matching (exact = true) for sub-items/children to prevent multi-highlighting
+  // Use exact matching for child links
   const activeChild = item.children?.find((child) =>
     isRouteActive(child.href, currentUrl, true)
   );
 
-  // Use prefix matching (exact = false) for the parent category container
+  // Use prefix matching for parent category container
   const parentIsActive =
     Boolean(activeChild) || isRouteActive(item.href, currentUrl, false);
 
@@ -57,9 +93,9 @@ export default function MobileNavItem({
     }
   }, [activeChild]);
 
-  const ItemIcon = getServiceIcon(item.title || "");
+  const ItemIcon = resolveItemIcon(item.title || "", item.key);
 
-  // Single Item without accordion children
+  // Single Navigation Link without Children
   if (!hasChildren) {
     const isActive = isRouteActive(item.href, currentUrl, true);
 
@@ -68,35 +104,35 @@ export default function MobileNavItem({
         href={item.href}
         onClick={onNavigate}
         className={cn(
-          "group relative flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-semibold transition-all duration-200",
+          "group relative flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-bold transition-all duration-200",
           isActive
-            ? "bg-primary/10 text-primary shadow-sm"
+            ? "bg-primary/15 text-primary shadow-sm dark:bg-primary/20"
             : "text-text-muted hover:bg-surface-elevated/60 hover:text-text"
         )}
       >
-        {/* Active Pill Indicator */}
+        {/* Flame Ember Active Indicator Pill */}
         {isActive && (
-          <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-primary" />
+          <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-gradient-to-b from-primary via-orange-500 to-primary shadow-[0_0_8px_rgba(234,88,12,0.6)]" />
         )}
 
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "flex h-8 w-8 items-center justify-center rounded-lg border transition-colors",
+              "flex h-9 w-9 items-center justify-center rounded-xl border transition-colors shrink-0",
               isActive
-                ? "border-primary/30 bg-primary/15 text-primary"
-                : "border-border/50 bg-surface-elevated text-text-muted group-hover:border-primary/30 group-hover:text-primary"
+                ? "border-primary/40 bg-primary/20 text-primary"
+                : "border-border/60 bg-surface-elevated text-text-muted group-hover:border-primary/40 group-hover:bg-primary/10 group-hover:text-primary"
             )}
           >
-            <ItemIcon size={16} />
+            <ItemIcon size={18} />
           </div>
-          <span>{item.title}</span>
+          <span className="tracking-tight">{item.title}</span>
         </div>
 
         <ArrowRight
-          size={15}
+          size={16}
           className={cn(
-            "transition-transform duration-200 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5",
+            "transition-transform duration-200 opacity-60 group-hover:opacity-100 group-hover:translate-x-1",
             isActive ? "text-primary opacity-100" : "text-text-muted"
           )}
         />
@@ -104,35 +140,35 @@ export default function MobileNavItem({
     );
   }
 
-  // Accordion Parent Container
+  // Accordion Parent Category Container
   return (
     <div className="rounded-xl border border-transparent transition-colors">
       <button
         type="button"
         onClick={() => setOpen((current) => !current)}
         className={cn(
-          "group relative flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-sm font-semibold transition-all duration-200",
+          "group relative flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-sm font-bold transition-all duration-200",
           parentIsActive
-            ? "bg-primary/10 text-primary"
+            ? "bg-primary/15 text-primary dark:bg-primary/20"
             : "text-text-muted hover:bg-surface-elevated/60 hover:text-text"
         )}
       >
         {parentIsActive && (
-          <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-primary" />
+          <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-gradient-to-b from-primary via-orange-500 to-primary shadow-[0_0_8px_rgba(234,88,12,0.6)]" />
         )}
 
         <div className="flex items-center gap-3">
           <div
             className={cn(
-              "flex h-8 w-8 items-center justify-center rounded-lg border transition-colors",
+              "flex h-9 w-9 items-center justify-center rounded-xl border transition-colors shrink-0",
               parentIsActive
-                ? "border-primary/30 bg-primary/15 text-primary"
-                : "border-border/50 bg-surface-elevated text-text-muted group-hover:border-primary/30 group-hover:text-primary"
+                ? "border-primary/40 bg-primary/20 text-primary"
+                : "border-border/60 bg-surface-elevated text-text-muted group-hover:border-primary/40 group-hover:bg-primary/10 group-hover:text-primary"
             )}
           >
-            <ItemIcon size={16} />
+            <ItemIcon size={18} />
           </div>
-          <span>{item.title}</span>
+          <span className="tracking-tight">{item.title}</span>
         </div>
 
         <ChevronDown
@@ -152,11 +188,10 @@ export default function MobileNavItem({
         )}
       >
         <div className="overflow-hidden pl-7 pr-1 pt-1 pb-2 space-y-1">
-          <div className="border-l-2 border-border/50 pl-3 space-y-1">
+          <div className="border-l-2 border-primary/20 pl-3 space-y-1">
             {item.children?.map((child) => {
-              // Pass exact = true for child items
               const childIsActive = isRouteActive(child.href, currentUrl, true);
-              const ChildIcon = getServiceIcon(child.title || "");
+              const ChildIcon = resolveItemIcon(child.title || "", child.key);
               const title = child.menuTitle ?? child.title;
 
               return (
@@ -165,15 +200,15 @@ export default function MobileNavItem({
                   href={child.href}
                   onClick={onNavigate}
                   className={cn(
-                    "group flex items-center justify-between rounded-lg px-3 py-2.5 text-xs font-semibold transition-all duration-150",
+                    "group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all duration-150",
                     childIsActive
-                      ? "bg-primary text-white shadow-sm"
+                      ? "bg-primary text-white shadow-md shadow-primary/20"
                       : "text-text-muted hover:bg-primary/10 hover:text-primary"
                   )}
                 >
                   <div className="flex items-center gap-2.5 truncate">
                     <ChildIcon
-                      size={14}
+                      size={15}
                       className={cn(
                         "shrink-0 transition-colors",
                         childIsActive
@@ -185,7 +220,7 @@ export default function MobileNavItem({
                   </div>
 
                   <ArrowRight
-                    size={12}
+                    size={14}
                     className={cn(
                       "shrink-0 opacity-0 transition-all group-hover:opacity-100 group-hover:translate-x-0.5",
                       childIsActive ? "opacity-100 text-white" : "text-primary"

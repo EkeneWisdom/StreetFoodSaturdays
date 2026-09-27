@@ -2,7 +2,7 @@ export const spacing = {
   section: "py-20 lg:py-28",
   sectionXSlim: "py-2 lg:py-3",
   sectionSlim: "py-5 lg:py-10",
-  sectionCompact: "py-16 lg:py-20",
+  sectionCompact: "py-16 lg:py-20", 
   sectionHero: "py-28 lg:py-36",
   sectionGap: "mb-12",
 

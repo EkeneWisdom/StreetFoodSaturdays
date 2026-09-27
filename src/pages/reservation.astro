@@ -1,0 +1,25 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+
+const meta = createMeta({
+  title: "Reserve A Table",
+  description:
+    "Book your riverfront dining table at Street Food Saturdays in Golden Spring, Mt. James. Choose your seating zone, time slot, and pre-order jerk platters.",
+  path: "/reservations",
+  keywords: [
+    "Street Food Saturdays reservations",
+    "Book river table Golden Spring",
+    "Jerk chicken platter pre-order",
+    "Mt James weekend dining booking",
+  ],
+});
+---
+
+<Layout meta={meta}>
+  <PageShell 
+    page="reservation"
+    client:load
+  />
+</Layout>

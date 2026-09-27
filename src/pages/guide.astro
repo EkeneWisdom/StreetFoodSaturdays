@@ -1,0 +1,26 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+
+const meta = createMeta({
+  title: "Guest Guide & Visitor Tips",
+  description:
+    "Planning your visit to Street Food Saturdays? Read our insider guide on directions to Golden Spring, dress codes, river safety, payment methods, and platter timing.",
+  path: "/guide",
+  keywords: [
+    "Street Food Saturdays guest guide",
+    "Golden Spring visitor tips",
+    "Mt James parking directions",
+    "Jamaican riverfront dining tips",
+    "What to wear Street Food Saturdays",
+  ],
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="guide"
+    client:load
+  />
+</Layout>

@@ -8,7 +8,7 @@ export const organization = {
   /* Identity */
 
   name: site.company,
-
+ 
   alternateName: site.shortName,
 
   legalName: site.company,

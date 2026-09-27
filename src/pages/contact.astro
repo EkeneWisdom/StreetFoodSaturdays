@@ -1,0 +1,27 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageShell from "@/components/layout/PageShell";
+import { createMeta } from "@/lib/seo/meta";
+
+const meta = createMeta({
+  title: "Contact Us",
+  description:
+    "Get in touch with the Street Food Saturdays team for table reservations, riverfront private event bookings, catering inquiries, and directions to Golden Spring, Mt. James.",
+  path: "/contact",
+  keywords: [
+    "Contact Street Food Saturdays",
+    "Street Food Saturdays location",
+    "Golden Spring Mt James restaurant contact",
+    "Jamaican woodfire grill reservations",
+    "Riverfront dining St Andrew Jamaica",
+    "Street Food Saturdays WhatsApp",
+  ],
+});
+---
+
+<Layout meta={meta}>
+  <PageShell
+    page="contact" 
+    client:load
+  />
+</Layout>

@@ -10,13 +10,19 @@ import MobileDrawer from "@/components/navigation/MobileDrawer";
 import useScroll from "@/hooks/useScroll";
 import { cn } from "@/lib/cn";
 
-import { Menu, PhoneCall, ShieldCheck, ArrowRight } from "lucide-react";
+import { 
+  Menu, 
+  Flame, 
+  Waves, 
+  Utensils, 
+  PhoneCall, 
+  ChevronRight, 
+  MapPin 
+} from "lucide-react";
 
 import { LAYOUT } from "@/config/layout";
 import contact from "@/config/contact";
-import { nav } from "@/config/navigation";
-import GetStartedButton from "@/widgets/get-started/GetStartedButton";
-import { GetStartedIcon } from "@/components/icons/GetStartedIcon";
+import { nav } from "@/config/navigation"; 
 
 interface NavbarProps {
   pathname?: string;
@@ -32,55 +38,68 @@ export default function Navbar({ pathname = "" }: NavbarProps) {
     setMounted(true);
   }, []);
 
-  // Safe navigation fallback targets
-  const contactHref = nav?.contact?.href ?? "#";
+  // Reservation CTA Target & WhatsApp Link
+  const reservationHref = nav?.reservation?.href ?? "#";
+  const reservationTitle = nav?.reservation?.title ?? "Reserve Platter";
+  const whatsappUrl = contact?.whatsappHref || (contact?.phone ? `https://wa.me/${String(contact.phone).replace(/\D/g, "")}` : "#");
 
   return (
     <>
-      {/* Top Engineering Utility Status Bar - Slides up out of view smoothly */}
+      {/* Top Gourmet Culinary Banner - Slides up smoothly on scroll */}
       <div
         className={cn(
           "relative z-50 border-b border-border/50 bg-surface-elevated/90 text-text transition-all duration-300 hidden md:block",
-          scrolled ? "-mt-8 opacity-0 pointer-events-none" : "mt-0 opacity-100"
+          scrolled ? "-mt-9 opacity-0 pointer-events-none" : "mt-0 opacity-100"
         )}
       >
         <Container className="flex items-center justify-between text-xs font-medium py-1.5">
-          <div className="flex items-center gap-4">
-            <span className="inline-flex items-center gap-1.5 text-primary font-semibold">
-              <ShieldCheck size={14} className="shrink-0" />
-              <span>Heavy Equipment & Marine Fleet Ready</span>
+          {/* River & Fire Status Indicators */}
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 text-primary font-bold tracking-wide uppercase text-[11px]">
+              <Flame size={13} className="animate-pulse text-primary shrink-0" />
+              <span>Gourmet Woodfire Dining</span>
             </span>
-            <span className="text-border">|</span>
+            <span className="text-border/80">|</span>
+            <span className="inline-flex items-center gap-1.5 text-secondary font-semibold text-[11px]">
+              <Waves size={13} className="shrink-0" />
+              <span>Mt. James Riverbed • Golden Spring</span>
+            </span>
+            <span className="text-border/80 hidden lg:inline">|</span>
             <span className="text-text-muted hidden lg:inline">
-              24/7 Rapid Site Assessment & Mobilization Across Nigeria
+              Next Seating: 11:00 AM & 2:00 PM
             </span>
           </div>
 
+          {/* Direct Concierge Contact & Directions Target */}
           <div className="flex items-center gap-4 shrink-0">
             {contact?.phone && (
               <a
-                href={`tel:${contact.phone}`}
-                className="flex items-center gap-1.5 text-text-muted transition-colors hover:text-primary dark:hover:text-primary"
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 text-text-muted transition-colors hover:text-primary"
               >
-                <PhoneCall size={13} className="text-primary" />
-                <span>Dispatch: {contact.phone}</span>
+                <PhoneCall size={12} className="text-emerald-500" />
+                <span>Concierge: {contact.phone}</span>
               </a>
             )}
+            
             <a
-              href={contactHref}
+              href={nav?.location?.href}
               className="inline-flex items-center gap-1 font-semibold text-primary transition-all hover:translate-x-0.5"
             >
-              <span>Submit Tender Request</span>
-              <ArrowRight size={12} />
+              <MapPin size={12} />
+              <span>Get Directions</span>
+              <ChevronRight size={12} />
             </a>
           </div>
         </Container>
       </div>
 
-      {/* Main Sticky Navbar Container */}
+      {/* Main Sticky Culinary Header Container */}
       <header
         className={cn(
-          "sticky top-0 z-50 transition-colors duration-300",
+          "sticky top-0 z-50 transition-all duration-300",
           scrolled
             ? "border-b border-border/80 bg-background/85 shadow-md backdrop-blur-xl"
             : "border-b border-border/30 bg-surface/50 backdrop-blur-sm"
@@ -94,42 +113,43 @@ export default function Navbar({ pathname = "" }: NavbarProps) {
               : (LAYOUT?.navbar?.expandedHeight ?? "80px"),
           }}
         >
-          {/* Logo with Brand Safety Guards */}
+          {/* Logo Component */}
           <Logo />
 
-          {/* Center Navigation Links */}
+          {/* Desktop Navigation Links */}
           <DesktopNavigation pathname={pathname} />
 
-          {/* Desktop Call to Actions */}
+          {/* Desktop Action Controls */}
           <div className="hidden items-center gap-3 lg:flex">
             {mounted && <ThemeToggle />}
 
-            <GetStartedButton
-              variant="primary"
-              className="group flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-md transition-all hover:bg-primary-hover hover:shadow-primary/20"
+            <a
+              href={reservationHref}
+              className="group inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-md transition-all duration-300 hover:bg-primary-hover hover:scale-[1.02] hover:shadow-primary/25"
             >
-              <GetStartedIcon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
-              <span>Get Estimate</span>
-            </GetStartedButton>
+              <Utensils size={16} className="transition-transform duration-200 group-hover:rotate-12" />
+              <span>{reservationTitle}</span>
+            </a>
           </div>
 
-          {/* Mobile Quick Trigger Controls */}
+          {/* Mobile Quick Controls */}
           <div className="flex items-center gap-1 sm:gap-2 lg:hidden">
-            <GetStartedButton
-              variant="ghost"
-              size="icon"
-              className="flex items-center justify-center p-2 text-primary hover:bg-primary/10 rounded-lg"
-              aria-label="Request Mobilization"
+            {mounted && <ThemeToggle />}
+
+            <a
+              href={reservationHref}
+              className="inline-flex items-center justify-center p-2.5 rounded-xl bg-primary text-white font-bold shadow-sm transition-transform active:scale-95"
+              aria-label="Reserve Platter"
             >
-              <GetStartedIcon className="w-6 h-6" />
-            </GetStartedButton>
+              <Utensils size={18} />
+            </a>
 
             <Button
               variant="ghost"
               size="icon"
-              className="flex items-center justify-center p-2 text-text hover:text-primary rounded-lg"
+              className="flex items-center justify-center p-2 text-text hover:text-primary rounded-xl"
               onClick={() => setMobileOpen(true)}
-              aria-label="Toggle Navigation Menu"
+              aria-label="Toggle Menu"
             >
               <Menu size={22} />
             </Button>

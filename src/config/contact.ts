@@ -1,25 +1,26 @@
-
-const PHONE = "+2349066830932";
+const RAW_NUMBER = "18764140016"; // Digits only with country code
 
 export const contact = {
-  email: "info@parkers1st.com",
+  email: "streetfoodsaturdays@gmail.com",
 
-  phone: PHONE,
+  // Beautiful UI display
+  phone: "+1 (876) 414-0016",
 
-  phoneHref: `tel:${PHONE}`,
+  // Click-to-call link for phones
+  phoneHref: `tel:+${RAW_NUMBER}`,
 
-  whatsapp: PHONE,
+  // WhatsApp click-to-chat link
+  whatsapp: "+1 (876) 414-0016",
+  whatsappHref: `https://wa.me/${RAW_NUMBER}`,
 
-  whatsappHref: `https://wa.me/${PHONE}`,
+  address: "Mt. James District (by the bridge), Golden Spring, West Rural St. Andrew, Jamaica",
 
-  address: "Plot 1-5 Parkers 1st Close, Awka North, Anambra state.",
-
-  maps: "",
+  maps: "https://maps.apple.com/place?map=hybrid&coordinate=18.118940%2C-76.778190&name=Mt%20James%20District%20Golden%20Spring%20West%20Rural%20St%20Andrews",
 
   businessHours: {
-    weekdays: "Mon - Fri : 9:00 AM - 6:00 PM",
-    saturday: "Saturday : 9:00 AM - 3:00 PM",
-    sunday: "Closed",
+    weekdays: "By Online Reservation Only",
+    saturday: "Event Days: 11:00 AM - 4:00 PM (1st Seating 11AM | 2nd Seating 2PM)",
+    sunday: "Select Event Days Only (By Reservation)",
   },
 };
 

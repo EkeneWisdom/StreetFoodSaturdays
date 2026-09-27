@@ -1,79 +1,71 @@
 export const site = {
-  name: "Parkers 1st",
-  company: "Parkers 1st Engineering Ltd",
-  shortName: "Parkers 1st",
+  name: "Street Food Saturdays",
+  company: "Street Food Saturdays",
+  shortName: "SFS",
 
-  tagline: "Engineering Limited", //First in Engineering Performance
+  tagline: "Woodfire Gourmet River Dining Experience",
 
   description:
-    "Leading heavy engineering and asset mobilization firm in Nigeria. Delivering swamp excavation, land clearing, dredging, marine works, and civil infrastructure solutions.",
+    "Woodfire gourmet river dining in Golden Spring, St. Andrew, Jamaica. By Chef Walker-Barrett. By reservation only.",
 
-  url: "https://parkers1st.com", // Update with your exact domain if different
+  url: "https://streetfoodsaturdays.com",
 
-  locale: "en_NG",
+  locale: "en_JM",
   language: "en",
 
-  email: "info@parkers1st.com", // Update with your actual contact email
+  email: "streetfoodsaturdays@gmail.com",
 
   otherEmails: [],
 
-  phone: "+2349066830932", // Update with your official line
+  phone: "+1 (876) 414-0016",
 
-  otherPhones: [], //['08069285543', '09012654228'],
+  otherPhones: ["8764140016"],
 
-  address: "Plot 1-5 Parkers 1st Close, Awka North, Anambra state.",
+  address: "Mt. James District (by the bridge), Golden Spring, West Rural St. Andrew, Kingston, Jamaica JMAAW08",
 
-  author: "Parkers 1st Ltd",
-  industry: "Heavy Engineering & Marine Construction",
-  timezone: "Africa/Lagos",
+  author: "Chef Walker-Barrett",
+  industry: "Gourmet Culinary & River Dining",
+  timezone: "America/Jamaica",
 
   keywords: [
     // --- Brand Keywords ---
-    "Parkers 1st",
-    "Parkers 1st Ltd",
-    "Parkers First Nigeria",
+    "Street Food Saturdays",
+    "Chef Walker Barrett",
+    "Street Food Saturdays Jamaica",
+    "SFS River Dining",
 
-    // --- Core Engineering & Equipment Services ---
-    "swamp excavator rental Nigeria",
-    "swamp buggy hire",
-    "heavy machinery lease Nigeria",
-    "dredging companies in Nigeria",
-    "sand dredging services",
-    "land clearing services",
-    "swamp clearing and preparation",
-    "civil engineering contractor Nigeria",
-    "marine engineering services",
-    "dredger hire Nigeria",
+    // --- Core Dining & Experience Services ---
+    "river dining experience Jamaica",
+    "woodfire gourmet cooking",
+    "live fire dining Kingston",
+    "coal stove cooking experience",
+    "private river dining Jamaica",
+    "gourmet surf and turf platter Jamaica",
 
-    // --- Project / Industry Scope ---
-    "pipeline right of way clearing",
-    "swamp reclamation Nigeria",
-    "canalization and maintenance dredging",
-    "shoreline protection services",
-    "jetty construction Nigeria",
-    "heavy equipment mobilization",
-    "earthmoving equipment rental",
+    // --- Event & Booking Scope ---
+    "river side picnic St Andrew",
+    "gourmet outdoor dining Jamaica",
+    "exclusive food events Kingston",
+    "Jamaican culinary tourism",
 
     // --- High-Intent Local SEO Keywords ---
-    "swamp buggy rental Niger Delta",
-    "dredging contractors Port Harcourt",
-    "heavy equipment lease Lagos",
-    "marine construction company Nigeria",
-    "civil infrastructure engineering Nigeria",
-    "swamp excavator operators Nigeria",
+    "river dining Golden Spring",
+    "Mt James district restaurant",
+    "weekend dining experiences Kingston Jamaica",
+    "top outdoor restaurants in Jamaica",
+    "best Jamaican chef experience",
   ],
 
   get copyright() {
-    return `© ${new Date().getFullYear()} ${this.company}. All rights reserved. `;
+    return `© ${new Date().getFullYear()} ${this.company}. All rights reserved.`;
   },
 
   /* Technical Attribution */
   engineeredBy: {
     name: "Sure Pipeline Ltd",
-    url: "https://surepipeline.com", // Make sure to include https://
+    url: "https://surepipeline.com",
     label: "Engineered by",
   },
-  
 };
 
 export default site;

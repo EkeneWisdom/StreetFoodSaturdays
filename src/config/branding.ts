@@ -1,33 +1,30 @@
 export const branding = {
-
   /* Company */
-  company: "Parkers 1st Engineering Ltd",
-  brand: "Parkers 1st",
-  shortName: "Parkers1st",
-  tagline: "First in Engineering Performance",
-  rc: "RC 1078575",
+  company: "Street Food Saturdays",
+  brand: "Street Food Saturdays",
+  shortName: "SFS",
+  tagline: "Woodfire Gourmet River Dining Experience",
+  rc: "",
 
   /* Logos */
-  logo: "/icon-light.svg",
-  logoLight: "/icon-light.svg",
-  logoDark: "/icon-dark.svg", 
-  logoIcon: "/icon-light.svg",
+  logo: "/icon-light.png",
+  logoLight: "/icon-light.png",
+  logoDark: "/icon-dark.png",
+  logoIcon: "/icon-light.png",
 
   /* Icons */
-  favicon: "/favicon.icon",
+  favicon: "/favicon.ico",
   appleTouchIcon: "/apple-touch-icon.png",
 
-  
   manifest: "/site.webmanifest",
 
   /* Images */
   defaultOgImage: "/og-image.webp",
 
   /* Theme */
-  themeColor: "#CC0214",
+  themeColor: "#8B1E1E", // SFS Woodfire Red
 
-  DEFAULT_THEME: "light", /* "light" | "dark" | "system" = "dark" */
-
+  DEFAULT_THEME: "light", /* "light" | "dark" | "system" */
 };
 
 export default branding;
