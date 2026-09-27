@@ -256,3 +256,21 @@ html.dark .skeleton-shimmer::after {
     transition: none !important;
   }
 }
+
+
+
+/* Prevent sticky element tearing on mobile Chromium browsers */
+.sticky, [data-sticky="true"], [class*="sticky"] {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+/* Target Tailwind's backdrop-blur classes globally to prevent GPU artifacts */
+[class*="backdrop-blur"] {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  contain: paint;
+}
