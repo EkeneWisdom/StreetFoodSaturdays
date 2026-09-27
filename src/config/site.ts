@@ -13,7 +13,7 @@ export const site = {
   locale: "en_JM",
   language: "en",
 
-  email: "streetfoodsaturdays@gmail.com",
+  email: "info@streetfoodsaturdays.com",
 
   otherEmails: [],
 
