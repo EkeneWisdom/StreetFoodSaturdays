@@ -13,7 +13,7 @@ export default function MenuPage() {
   // Active Filter Category State
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
-  // Filtered Items Logic (re-calculates immediately on state change)
+  // Filtered Items Logic
   const filteredItems = useMemo(() => {
     if (activeCategory === "all") {
       return menuData.items;
@@ -47,7 +47,7 @@ export default function MenuPage() {
         </div>
 
         {/* 2. CATEGORY TABS SELECTOR (FILTER BUTTONS) */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mb-12 relative z-20">
+        <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3 mb-12 relative z-20 transform-gpu">
           {menuData.categories.map((cat) => {
             const Icon = cat.icon;
             const isActive = activeCategory === cat.id;
@@ -56,14 +56,12 @@ export default function MenuPage() {
               <button
                 key={cat.id}
                 type="button"
-                onClick={() => {
-                  setActiveCategory(cat.id);
-                }}
+                onClick={() => setActiveCategory(cat.id)}
                 className={cn(
-                  "relative flex items-center gap-2 rounded-2xl border px-5 py-3 text-xs font-bold transition-all duration-200 cursor-pointer select-none",
+                  "relative flex items-center gap-2 rounded-2xl border px-5 py-3 text-xs font-bold transition-all duration-200 cursor-pointer select-none transform-gpu",
                   isActive
                     ? "border-primary bg-primary text-white shadow-lg shadow-primary/30 ring-2 ring-primary/50 scale-105 z-10"
-                    : "border-border/60 bg-surface/80 text-text-muted hover:border-primary/50 hover:text-text hover:bg-surface-elevated"
+                    : "border-border/60 bg-surface/90 text-text-muted hover:border-primary/50 hover:text-text hover:bg-surface-elevated"
                 )}
               >
                 <Icon size={16} className={isActive ? "text-white" : "text-primary"} />
@@ -104,7 +102,7 @@ export default function MenuPage() {
             {filteredItems.map((item) => (
               <div
                 key={item.id}
-                className="group relative flex flex-col justify-between rounded-3xl border border-border/60 bg-surface/50 overflow-hidden backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-2xl hover:shadow-primary/10"
+                className="group relative flex flex-col justify-between rounded-3xl border border-border/60 bg-surface/90 overflow-hidden transform-gpu transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-2xl hover:shadow-primary/10"
               >
                 {/* Image Box */}
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-elevated">
@@ -125,16 +123,16 @@ export default function MenuPage() {
 
                   <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
 
-                  {/* Signature Badge */}
+                  {/* Signature Badge - Cleaned solid opacity background to stop GPU glitch */}
                   {item.isSignature && (
-                    <div className="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/20 px-3 py-1 text-[10px] font-extrabold uppercase text-amber-400 backdrop-blur-md">
+                    <div className="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full border border-amber-500/40 bg-surface/90 px-3 py-1 text-[10px] font-extrabold uppercase text-amber-400 shadow-md">
                       <Crown size={12} />
                       <span>Signature</span>
                     </div>
                   )}
 
-                  {/* Price Tag */}
-                  <div className="absolute bottom-4 right-4 rounded-xl border border-white/20 bg-background/90 px-3 py-1.5 text-xs font-black text-primary backdrop-blur-md">
+                  {/* Price Tag - Cleaned solid opacity background */}
+                  <div className="absolute bottom-4 right-4 rounded-xl border border-white/20 bg-background/95 px-3 py-1.5 text-xs font-black text-primary shadow-md">
                     {item.price}
                   </div>
                 </div>
@@ -182,7 +180,7 @@ export default function MenuPage() {
         )}
 
         {/* 4. MEGA PLATTER FEATURE */}
-        <div className="rounded-3xl border border-primary/40 bg-gradient-to-br from-primary/10 via-surface-elevated to-background p-8 sm:p-12 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+        <div className="rounded-3xl border border-primary/40 bg-surface/90 p-8 sm:p-12 shadow-2xl relative overflow-hidden transform-gpu">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <div className="lg:col-span-7 space-y-4">
@@ -208,7 +206,7 @@ export default function MenuPage() {
                   {menuData.megaPlatter.price}
                 </span>
                 <a
-                  href="/reservations"
+                  href="/reservation"
                   className="rounded-xl bg-primary px-6 py-3 text-xs font-bold text-white shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all"
                 >
                   Pre-Order On Reservation
