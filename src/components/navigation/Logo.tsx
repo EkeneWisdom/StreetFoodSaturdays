@@ -91,7 +91,7 @@ export default function Logo({
               compact ? "text-base" : "text-lg"
             )}
           >
-            {site?.name}
+            {site?.shortName}
           </span>
 
           {!compact && site?.tagline && (
