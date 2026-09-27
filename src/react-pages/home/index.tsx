@@ -55,7 +55,7 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
               <a
                 href={homeData.hero.primaryCta.href}
-                className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-sm font-bold text-white shadow-xl shadow-primary/25 hover:bg-primary-hover hover:scale-105 transition-all duration-200"
+                className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-sm font-bold text-white shadow-xl shadow-primary/25 hover:bg-primary-hover hover:scale-105 transition-all duration-200 transform-gpu"
               >
                 <span>{homeData.hero.primaryCta.text}</span>
                 <ArrowRight size={16} />
@@ -63,7 +63,7 @@ export default function HomePage() {
 
               <a
                 href={homeData.hero.secondaryCta.href}
-                className="inline-flex items-center gap-2 rounded-2xl border border-border/80 bg-surface/80 px-8 py-4 text-sm font-bold text-text hover:border-primary/50 hover:bg-surface-elevated transition-all duration-200 backdrop-blur-md"
+                className="inline-flex items-center gap-2 rounded-2xl border border-border/80 bg-surface/90 px-8 py-4 text-sm font-bold text-text hover:border-primary/50 hover:bg-surface-elevated transition-all duration-200 transform-gpu"
               >
                 <Utensils size={16} className="text-primary" />
                 <span>{homeData.hero.secondaryCta.text}</span>
@@ -82,7 +82,7 @@ export default function HomePage() {
           </div>
 
           {/* Hero Right Visual Feature Container */}
-          <div className="lg:col-span-5 relative">
+          <div className="lg:col-span-5 relative transform-gpu">
             <div className="relative aspect-[4/5] w-full rounded-3xl overflow-hidden border border-border/60 bg-surface shadow-2xl group">
               <img
                 src="/images/home/hero-river-dining.png" // RECOMMENDED: Breathtaking shot of food served at tables set directly beside a mountain river
@@ -101,7 +101,7 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
 
               {/* Floating Bottom Card */}
-              <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/10 bg-background/80 p-4 backdrop-blur-md space-y-1">
+              <div className="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/10 bg-background/90 p-4 space-y-1 transform-gpu">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
                     <Sparkles size={12} />
@@ -125,7 +125,7 @@ export default function HomePage() {
             return (
               <div
                 key={idx}
-                className="rounded-3xl border border-border/60 bg-surface/50 p-6 backdrop-blur-md space-y-3 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-surface-elevated"
+                className="rounded-3xl border border-border/60 bg-surface/90 p-6 space-y-3 transform-gpu transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-xl"
               >
                 <div className={cn("inline-flex h-12 w-12 items-center justify-center rounded-2xl border", item.accent)}>
                   <Icon size={22} />
@@ -157,7 +157,7 @@ export default function HomePage() {
             {homeData.signatures.map((dish) => (
               <div
                 key={dish.id}
-                className="group rounded-3xl border border-border/60 bg-surface/50 overflow-hidden backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10 flex flex-col justify-between"
+                className="group rounded-3xl border border-border/60 bg-surface/90 overflow-hidden transform-gpu transition-all duration-300 hover:-translate-y-2 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-2xl hover:shadow-primary/10 flex flex-col justify-between"
               >
                 <div>
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-elevated">
@@ -173,13 +173,13 @@ export default function HomePage() {
                     </div>
 
                     {/* Badge */}
-                    <div className="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/20 px-3 py-1 text-[10px] font-extrabold uppercase text-amber-400 backdrop-blur-md">
+                    <div className="absolute top-4 left-4 inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/20 px-3 py-1 text-[10px] font-extrabold uppercase text-amber-400">
                       <Crown size={12} />
                       <span>{dish.badge}</span>
                     </div>
 
                     {/* Price */}
-                    <div className="absolute bottom-4 right-4 rounded-xl border border-white/20 bg-background/90 px-3 py-1.5 text-xs font-black text-primary backdrop-blur-md">
+                    <div className="absolute bottom-4 right-4 rounded-xl border border-white/20 bg-background/90 px-3 py-1.5 text-xs font-black text-primary">
                       {dish.price}
                     </div>
                   </div>
@@ -208,7 +208,7 @@ export default function HomePage() {
         </div>
 
         {/* 4. VISITOR LOGISTICS BANNER */}
-        <div className="rounded-3xl border border-border/60 bg-surface/80 p-8 sm:p-12 backdrop-blur-xl shadow-2xl mb-24 relative overflow-hidden">
+        <div className="rounded-3xl border border-border/60 bg-surface/90 p-8 sm:p-12 shadow-2xl mb-24 relative overflow-hidden transform-gpu">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <div className="lg:col-span-6 space-y-4">
@@ -256,7 +256,7 @@ export default function HomePage() {
                 <div className="pt-2 flex items-center gap-3">
                   <a
                     href={nav?.location?.href}
-                    className="flex-1 text-center rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all"
+                    className="flex-1 text-center rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-primary/20 hover:bg-primary-hover transition-all duration-200"
                   >
                     Get Map & Driving Directions
                   </a>
@@ -278,7 +278,7 @@ export default function HomePage() {
             <h2 className="text-3xl font-black text-text">Loved By Foodies & Locals</h2>
           </div>
 
-          <div className="rounded-3xl border border-border/60 bg-surface/60 p-8 sm:p-10 backdrop-blur-md relative min-h-[180px] flex flex-col justify-between">
+          <div className="rounded-3xl border border-border/60 bg-surface/90 p-8 sm:p-10 relative min-h-[180px] flex flex-col justify-between shadow-lg transform-gpu">
             <p className="text-base sm:text-lg font-medium italic text-text leading-relaxed">
               "{homeData.testimonials[activeTestimonial].quote}"
             </p>
@@ -301,7 +301,7 @@ export default function HomePage() {
                     type="button"
                     onClick={() => setActiveTestimonial(idx)}
                     className={cn(
-                      "h-2.5 rounded-full transition-all cursor-pointer",
+                      "h-2.5 rounded-full transition-all duration-200 cursor-pointer transform-gpu",
                       activeTestimonial === idx ? "w-8 bg-primary" : "w-2.5 bg-border hover:bg-primary/50"
                     )}
                     aria-label={`Go to testimonial ${idx + 1}`}
@@ -313,7 +313,7 @@ export default function HomePage() {
         </div>
 
         {/* 6. FINAL HIGH-CONVERSION CTA */}
-        <div className="rounded-3xl border border-primary/40 bg-gradient-to-br from-primary/20 via-surface-elevated to-background p-10 sm:p-16 text-center backdrop-blur-xl shadow-2xl relative overflow-hidden">
+        <div className="rounded-3xl border border-primary/40 bg-gradient-to-br from-primary/20 via-surface-elevated to-background p-10 sm:p-16 text-center shadow-2xl relative overflow-hidden transform-gpu">
           <div className="max-w-2xl mx-auto space-y-6 relative z-10">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/20 px-4 py-1 text-xs font-extrabold text-primary">
               <Flame size={14} />
@@ -331,14 +331,14 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
               <a
                 href={nav?.reservation?.href}
-                className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-xs font-bold text-white shadow-xl shadow-primary/30 hover:bg-primary-hover hover:scale-105 transition-all"
+                className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-xs font-bold text-white shadow-xl shadow-primary/30 hover:bg-primary-hover hover:scale-105 transition-all duration-200 transform-gpu"
               >
                 <span>Book Your Riverside Table</span>
                 <ArrowRight size={16} />
               </a>
               <a
                 href={nav?.experience?.href}
-                className="inline-flex items-center gap-2 rounded-2xl border border-border/80 bg-surface px-8 py-4 text-xs font-bold text-text hover:border-primary/50 transition-all"
+                className="inline-flex items-center gap-2 rounded-2xl border border-border/80 bg-surface px-8 py-4 text-xs font-bold text-text hover:border-primary/50 transition-all duration-200 transform-gpu"
               >
                 <span>See Full River Experience</span>
               </a>

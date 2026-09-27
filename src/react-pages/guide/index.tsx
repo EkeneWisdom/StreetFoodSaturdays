@@ -51,7 +51,7 @@ export default function GuestGuidePage() {
             return (
               <div
                 key={idx}
-                className="rounded-2xl border border-border/60 bg-surface/50 p-6 backdrop-blur-sm transition-all hover:border-primary/40 hover:bg-surface-elevated"
+                className="rounded-2xl border border-border/60 bg-surface/90 p-6 transform-gpu transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-xl"
               >
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary">
                   <Icon size={22} />
@@ -97,7 +97,7 @@ export default function GuestGuidePage() {
                       return (
                         <div
                           key={tipIdx}
-                          className="rounded-2xl border border-border/60 bg-surface/40 p-5 space-y-3 backdrop-blur-sm"
+                          className="rounded-2xl border border-border/60 bg-surface/90 p-5 space-y-3 transform-gpu transition-colors duration-200 hover:border-primary/40"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -121,7 +121,7 @@ export default function GuestGuidePage() {
 
                 {/* Right/Left Visual Image Card */}
                 <div className={cn("lg:col-span-5", isReversed ? "lg:order-1" : "lg:order-2")}>
-                  <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-border/60 bg-surface-elevated shadow-xl group">
+                  <div className="relative aspect-[4/3] rounded-3xl overflow-hidden border border-border/60 bg-surface-elevated shadow-xl group transform-gpu">
                     {/* RECOMMENDED IMAGE: section.bgImage */}
                     <img
                       src={section.bgImage}
@@ -140,7 +140,7 @@ export default function GuestGuidePage() {
 
                     <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
 
-                    <div className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/10 bg-background/80 p-3 backdrop-blur-md">
+                    <div className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/10 bg-background/90 p-3">
                       <p className="text-xs font-bold flex items-center gap-2">
                         <ShieldCheck size={14} className="text-emerald-400 shrink-0" />
                         <span>Golden Spring Verified Tip</span>
@@ -154,7 +154,7 @@ export default function GuestGuidePage() {
         </div>
 
         {/* 4. INTERACTIVE WHAT TO BRING CHECKLIST */}
-        <div className="max-w-3xl mx-auto rounded-3xl border border-primary/30 bg-surface-elevated/60 p-8 sm:p-10 shadow-2xl backdrop-blur-md">
+        <div className="max-w-3xl mx-auto rounded-3xl border border-primary/30 bg-surface-elevated/90 p-8 sm:p-10 shadow-2xl transform-gpu">
           <div className="text-center space-y-2 mb-8">
             <span className="text-xs font-extrabold uppercase tracking-widest text-primary">
               Packing Prep
@@ -174,15 +174,15 @@ export default function GuestGuidePage() {
                   type="button"
                   onClick={() => toggleCheck(idx)}
                   className={cn(
-                    "flex items-center gap-3 rounded-xl border p-4 text-xs font-bold text-left transition-all",
+                    "flex items-center gap-3 rounded-xl border p-4 text-xs font-bold text-left transition-all duration-200 cursor-pointer select-none transform-gpu",
                     isChecked
                       ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-500 line-through"
-                      : "border-border/60 bg-surface/50 text-text hover:border-primary/40"
+                      : "border-border/60 bg-surface/90 text-text hover:border-primary/40 hover:bg-surface-elevated"
                   )}
                 >
                   <div
                     className={cn(
-                      "flex h-5 w-5 items-center justify-center rounded-md border shrink-0 transition-colors",
+                      "flex h-5 w-5 items-center justify-center rounded-md border shrink-0 transition-colors duration-200",
                       isChecked
                         ? "border-emerald-500 bg-emerald-500 text-white"
                         : "border-border bg-surface"
@@ -199,7 +199,7 @@ export default function GuestGuidePage() {
           <div className="mt-8 text-center pt-4 border-t border-border/40">
             <a
               href={nav?.reservation?.href || "#"}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/20 transition-all hover:bg-primary-hover"
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-lg shadow-primary/20 transition-all duration-200 hover:bg-primary-hover transform-gpu active:scale-95"
             >
               <span>Ready? Reserve Your Table Now</span>
               <ArrowRight size={14} />

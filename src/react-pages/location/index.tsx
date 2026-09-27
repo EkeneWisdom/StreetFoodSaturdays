@@ -47,7 +47,7 @@ export default function LocationPage() {
               href={locationData.hero.googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-xs font-bold text-white shadow-xl shadow-primary/25 hover:bg-primary-hover hover:scale-105 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-xs font-bold text-white shadow-xl shadow-primary/25 hover:bg-primary-hover hover:scale-105 transition-all duration-200 transform-gpu cursor-pointer"
             >
               <Navigation size={16} />
               <span>Open in Google Maps</span>
@@ -61,7 +61,7 @@ export default function LocationPage() {
           {locationData.quickStats.map((stat, idx) => (
             <div
               key={idx}
-              className="rounded-3xl border border-border/60 bg-surface/60 p-6 text-center backdrop-blur-md space-y-1"
+              className="rounded-3xl border border-border/60 bg-surface/90 p-6 text-center space-y-1 transform-gpu transition-all duration-200 hover:-translate-y-0.5 hover:bg-surface-elevated"
             >
               <span className="text-[10px] font-extrabold text-primary uppercase tracking-wider">{stat.label}</span>
               <div className="text-2xl font-black text-text">{stat.value}</div>
@@ -79,14 +79,14 @@ export default function LocationPage() {
 
           <div className="relative border-l-2 border-primary/30 ml-4 sm:ml-8 pl-6 sm:pl-8 space-y-10">
             {locationData.waypoints.map((point) => (
-              <div key={point.step} className="relative group">
+              <div key={point.step} className="relative group transform-gpu">
                 
                 {/* Step Marker Badge */}
                 <div className="absolute -left-[35px] sm:-left-[43px] top-0 flex h-9 w-9 items-center justify-center rounded-2xl bg-primary text-xs font-black text-white shadow-lg shadow-primary/30 ring-4 ring-background">
                   {point.step}
                 </div>
 
-                <div className="rounded-3xl border border-border/60 bg-surface/70 p-6 backdrop-blur-md space-y-2 transition-all group-hover:border-primary/40">
+                <div className="rounded-3xl border border-border/60 bg-surface/90 p-6 space-y-2 transition-all duration-200 group-hover:border-primary/40 group-hover:bg-surface-elevated">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                     <h3 className="text-base font-black text-text">{point.title}</h3>
                     <span className="text-[10px] font-extrabold text-primary bg-primary/10 px-2.5 py-1 rounded-full border border-primary/20 w-fit">
@@ -112,7 +112,7 @@ export default function LocationPage() {
         <div className="max-w-5xl mx-auto mb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
           {/* Parking Detail Card */}
-          <div className="lg:col-span-6 rounded-3xl border border-border/60 bg-surface/80 p-8 backdrop-blur-xl space-y-6 flex flex-col justify-between">
+          <div className="lg:col-span-6 rounded-3xl border border-border/60 bg-surface/90 p-8 space-y-6 flex flex-col justify-between transform-gpu">
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
@@ -148,7 +148,7 @@ export default function LocationPage() {
             {locationData.transportOptions.map((opt, idx) => {
               const Icon = opt.icon;
               return (
-                <div key={idx} className="rounded-3xl border border-border/60 bg-surface/50 p-5 backdrop-blur-md flex items-start gap-4">
+                <div key={idx} className="rounded-3xl border border-border/60 bg-surface/90 p-5 flex items-start gap-4 transform-gpu transition-all duration-200 hover:bg-surface-elevated">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary mt-1">
                     <Icon size={20} />
                   </div>
@@ -169,7 +169,7 @@ export default function LocationPage() {
         </div>
 
         {/* 5. OFFLINE GPS PREPARATION CARD */}
-        <div className="max-w-4xl mx-auto rounded-3xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-surface to-background p-8 sm:p-10 backdrop-blur-xl shadow-2xl mb-16">
+        <div className="max-w-4xl mx-auto rounded-3xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-surface to-background p-8 sm:p-10 shadow-2xl mb-16 transform-gpu">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-500">
               <WifiOff size={24} />
@@ -198,7 +198,7 @@ export default function LocationPage() {
           </p>
           <a
             href={nav?.reservation?.href}
-            className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-xs font-bold text-white shadow-xl shadow-primary/25 hover:bg-primary-hover transition-all"
+            className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-xs font-bold text-white shadow-xl shadow-primary/25 hover:bg-primary-hover hover:scale-105 transition-all duration-200 transform-gpu"
           >
             <span>Reserve A Table Now</span>
             <ChevronRight size={16} />

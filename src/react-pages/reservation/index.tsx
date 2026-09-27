@@ -8,16 +8,11 @@ import {
   Check, 
   ChevronRight, 
   ChevronLeft, 
-  Utensils, 
   Plus, 
   Minus, 
   MessageSquare, 
-  ShieldCheck, 
-  Flame, 
-  Waves,
-  Info
+  ShieldCheck
 } from "lucide-react";
-//import { reservationData, SeatingZone, PreorderItem } from "./data";
 import { reservationData } from "./data";
 import { cn } from "@/lib/cn";
 import { contact } from "@/config/contact";
@@ -84,7 +79,7 @@ export default function ReservationsPage() {
       (preorderTotalJMD > 0 ? `*Pre-order Total:* $${preorderTotalJMD.toLocaleString()} JMD%0A` : "") +
       (specialNotes ? `%0A*Special Requests:* ${specialNotes}` : "");
 
-    return `${contact.whatsappHref}?text=${message}`; // Replace with your WhatsApp Business Number
+    return `${contact.whatsappHref}?text=${message}`;
   };
 
   return (
@@ -127,7 +122,7 @@ export default function ReservationsPage() {
                 <div key={step.num} className="flex flex-col items-center gap-2 bg-background px-3">
                   <div
                     className={cn(
-                      "flex h-10 w-10 items-center justify-center rounded-2xl text-xs font-black transition-all",
+                      "flex h-10 w-10 items-center justify-center rounded-2xl text-xs font-black transition-all transform-gpu",
                       isDone
                         ? "bg-emerald-500 text-white"
                         : isActive
@@ -153,7 +148,7 @@ export default function ReservationsPage() {
 
         {/* 3. STEP CONTENT CARDS */}
         <div className="max-w-4xl mx-auto">
-          <div className="rounded-3xl border border-border/60 bg-surface/80 p-6 sm:p-10 backdrop-blur-xl shadow-2xl">
+          <div className="rounded-3xl border border-border/60 bg-surface/90 p-6 sm:p-10 shadow-2xl">
 
             {/* STEP 1: PARTY, TIME & ZONE SELECTOR */}
             {currentStep === 1 && (
@@ -188,7 +183,7 @@ export default function ReservationsPage() {
                       <button
                         type="button"
                         onClick={() => setPartySize(Math.max(1, partySize - 1))}
-                        className="flex h-8 w-8 items-center justify-center rounded-xl bg-background border border-border text-text hover:border-primary cursor-pointer"
+                        className="flex h-8 w-8 items-center justify-center rounded-xl bg-background border border-border text-text hover:border-primary cursor-pointer transform-gpu transition-transform active:scale-95"
                       >
                         <Minus size={14} />
                       </button>
@@ -198,7 +193,7 @@ export default function ReservationsPage() {
                       <button
                         type="button"
                         onClick={() => setPartySize(partySize + 1)}
-                        className="flex h-8 w-8 items-center justify-center rounded-xl bg-background border border-border text-text hover:border-primary cursor-pointer"
+                        className="flex h-8 w-8 items-center justify-center rounded-xl bg-background border border-border text-text hover:border-primary cursor-pointer transform-gpu transition-transform active:scale-95"
                       >
                         <Plus size={14} />
                       </button>
@@ -222,7 +217,7 @@ export default function ReservationsPage() {
                           type="button"
                           onClick={() => setSelectedTime(slot.id)}
                           className={cn(
-                            "flex flex-col items-center gap-1 rounded-2xl border p-3.5 text-center transition-all cursor-pointer",
+                            "flex flex-col items-center gap-1 rounded-2xl border p-3.5 text-center transition-all duration-200 cursor-pointer transform-gpu",
                             isSelected
                               ? "border-primary bg-primary text-white shadow-lg shadow-primary/20 scale-105"
                               : "border-border/60 bg-surface/50 text-text hover:border-primary/40"
@@ -255,10 +250,10 @@ export default function ReservationsPage() {
                           key={zone.id}
                           onClick={() => setSelectedZone(zone.id)}
                           className={cn(
-                            "relative rounded-2xl border p-5 transition-all cursor-pointer flex flex-col justify-between space-y-4",
+                            "relative rounded-2xl border p-5 transition-all duration-200 cursor-pointer flex flex-col justify-between space-y-4 transform-gpu",
                             isSelected
                               ? "border-primary bg-primary/10 ring-2 ring-primary/50 shadow-xl"
-                              : "border-border/60 bg-surface/40 hover:border-primary/40"
+                              : "border-border/60 bg-surface/40 hover:border-primary/40 hover:bg-surface-elevated/80"
                           )}
                         >
                           <div className="space-y-2">
@@ -287,7 +282,7 @@ export default function ReservationsPage() {
                   <button
                     type="button"
                     onClick={() => setCurrentStep(2)}
-                    className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-xl shadow-primary/20 hover:bg-primary-hover transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-xl shadow-primary/20 hover:bg-primary-hover hover:scale-105 transition-all duration-200 transform-gpu cursor-pointer"
                   >
                     <span>Continue To Food Pre-Order</span>
                     <ChevronRight size={16} />
@@ -314,7 +309,7 @@ export default function ReservationsPage() {
                     return (
                       <div
                         key={dish.id}
-                        className="rounded-2xl border border-border/60 bg-surface/50 p-4 space-y-3 flex flex-col justify-between"
+                        className="rounded-2xl border border-border/60 bg-surface/50 p-4 space-y-3 flex flex-col justify-between transform-gpu transition-all duration-200 hover:bg-surface-elevated/60"
                       >
                         <div className="space-y-2">
                           <div className="flex justify-between items-start">
@@ -335,7 +330,7 @@ export default function ReservationsPage() {
                             <button
                               type="button"
                               onClick={() => handleQuantityChange(dish.id, -1)}
-                              className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-background text-text hover:border-primary cursor-pointer"
+                              className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-background text-text hover:border-primary cursor-pointer transform-gpu transition-transform active:scale-95"
                             >
                               <Minus size={12} />
                             </button>
@@ -343,7 +338,7 @@ export default function ReservationsPage() {
                             <button
                               type="button"
                               onClick={() => handleQuantityChange(dish.id, 1)}
-                              className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-background text-text hover:border-primary cursor-pointer"
+                              className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-background text-text hover:border-primary cursor-pointer transform-gpu transition-transform active:scale-95"
                             >
                               <Plus size={12} />
                             </button>
@@ -367,7 +362,7 @@ export default function ReservationsPage() {
                   <button
                     type="button"
                     onClick={() => setCurrentStep(1)}
-                    className="inline-flex items-center gap-1.5 rounded-2xl border border-border bg-surface px-6 py-3.5 text-xs font-bold text-text hover:border-primary/40 cursor-pointer"
+                    className="inline-flex items-center gap-1.5 rounded-2xl border border-border bg-surface px-6 py-3.5 text-xs font-bold text-text hover:border-primary/40 transform-gpu transition-all duration-200 cursor-pointer"
                   >
                     <ChevronLeft size={16} />
                     <span>Back</span>
@@ -376,7 +371,7 @@ export default function ReservationsPage() {
                   <button
                     type="button"
                     onClick={() => setCurrentStep(3)}
-                    className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-xl shadow-primary/20 hover:bg-primary-hover transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-3.5 text-xs font-bold text-white shadow-xl shadow-primary/20 hover:bg-primary-hover hover:scale-105 transition-all duration-200 transform-gpu cursor-pointer"
                   >
                     <span>Proceed To Guest Details</span>
                     <ChevronRight size={16} />
@@ -471,7 +466,7 @@ export default function ReservationsPage() {
                   <button
                     type="button"
                     onClick={() => setCurrentStep(2)}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-2xl border border-border bg-surface px-6 py-3.5 text-xs font-bold text-text hover:border-primary/40 cursor-pointer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 rounded-2xl border border-border bg-surface px-6 py-3.5 text-xs font-bold text-text hover:border-primary/40 transform-gpu transition-all duration-200 cursor-pointer"
                   >
                     <ChevronLeft size={16} />
                     <span>Back</span>
@@ -482,7 +477,7 @@ export default function ReservationsPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
-                      "w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-8 py-4 text-xs font-extrabold text-white shadow-xl shadow-emerald-600/30 hover:bg-emerald-500 transition-all cursor-pointer",
+                      "w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-8 py-4 text-xs font-extrabold text-white shadow-xl shadow-emerald-600/30 hover:bg-emerald-500 hover:scale-105 transition-all duration-200 transform-gpu cursor-pointer",
                       (!fullName || !phone) && "opacity-50 pointer-events-none"
                     )}
                   >
@@ -506,7 +501,7 @@ export default function ReservationsPage() {
         {/* 4. RESERVATION POLICIES & TRUST BADGES */}
         <div className="max-w-4xl mx-auto mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           {reservationData.policies.map((policy, idx) => (
-            <div key={idx} className="rounded-2xl border border-border/60 bg-surface/40 p-4 flex items-start gap-3">
+            <div key={idx} className="rounded-2xl border border-border/60 bg-surface/40 p-4 flex items-start gap-3 transform-gpu transition-all duration-200 hover:bg-surface-elevated/60">
               <ShieldCheck size={18} className="text-primary shrink-0 mt-0.5" />
               <p className="text-xs text-text-muted leading-relaxed">{policy}</p>
             </div>

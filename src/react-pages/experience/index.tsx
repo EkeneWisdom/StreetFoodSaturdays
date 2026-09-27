@@ -50,7 +50,7 @@ export default function ExperiencePage() {
             return (
               <div
                 key={idx}
-                className="group relative rounded-3xl border border-border/60 bg-surface/50 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-2xl hover:shadow-primary/10 overflow-hidden flex flex-col justify-between"
+                className="group relative rounded-3xl border border-border/60 bg-surface/90 p-8 transform-gpu transition-all duration-300 hover:-translate-y-2 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-2xl hover:shadow-primary/10 overflow-hidden flex flex-col justify-between"
               >
                 {/* Background Image Effect */}
                 <div className="absolute inset-0 -z-10 opacity-15 transition-opacity duration-300 group-hover:opacity-25">
@@ -109,10 +109,10 @@ export default function ExperiencePage() {
                   type="button"
                   onClick={() => setActivePhase(idx)}
                   className={cn(
-                    "flex items-center gap-3 rounded-2xl border px-6 py-3.5 text-xs font-bold transition-all duration-200 cursor-pointer select-none",
+                    "flex items-center gap-3 rounded-2xl border px-6 py-3.5 text-xs font-bold transition-all duration-200 cursor-pointer select-none transform-gpu",
                     isActive
                       ? "border-primary bg-primary text-white shadow-lg shadow-primary/25 scale-105"
-                      : "border-border/60 bg-surface/60 text-text-muted hover:border-primary/40 hover:text-text hover:bg-surface-elevated"
+                      : "border-border/60 bg-surface/90 text-text-muted hover:border-primary/40 hover:text-text hover:bg-surface-elevated"
                   )}
                 >
                   <PhaseIcon size={16} />
@@ -132,7 +132,7 @@ export default function ExperiencePage() {
             const current = experienceData.timeline[activePhase];
             const CurrentIcon = current.icon;
             return (
-              <div className="rounded-3xl border border-border/60 bg-surface/60 p-6 sm:p-10 backdrop-blur-xl shadow-2xl transition-all duration-500">
+              <div className="rounded-3xl border border-border/60 bg-surface/90 p-6 sm:p-10 shadow-2xl transform-gpu transition-all duration-300">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                   
                   {/* Left Phase Details */}
@@ -190,7 +190,7 @@ export default function ExperiencePage() {
 
                       <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
 
-                      <div className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/10 bg-background/80 p-3 backdrop-blur-md">
+                      <div className="absolute bottom-4 left-4 right-4 rounded-xl border border-white/10 bg-background/90 p-3">
                         <p className="text-xs font-bold flex items-center gap-2">
                           <Sparkles size={14} className="text-primary shrink-0" />
                           <span>{current.badge} Experience</span>
@@ -206,7 +206,7 @@ export default function ExperiencePage() {
         </div>
 
         {/* 4. SENSORY QUOTE BANNER */}
-        <div className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/10 via-surface-elevated to-background p-8 sm:p-12 text-center relative overflow-hidden shadow-2xl mb-20">
+        <div className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/10 via-surface-elevated to-background p-8 sm:p-12 text-center relative overflow-hidden shadow-2xl mb-20 transform-gpu">
           <Quote size={80} className="absolute -top-4 -left-4 text-primary/10 -rotate-12" />
           <div className="relative z-10 max-w-2xl mx-auto space-y-6">
             <p className="text-base sm:text-xl font-medium italic text-text leading-relaxed">
@@ -219,7 +219,7 @@ export default function ExperiencePage() {
         </div>
 
         {/* 5. CALL TO ACTION BOX */}
-        <div className="rounded-3xl border border-border/60 bg-surface/80 p-8 sm:p-12 text-center backdrop-blur-md space-y-6">
+        <div className="rounded-3xl border border-border/60 bg-surface/90 p-8 sm:p-12 text-center space-y-6 shadow-xl transform-gpu">
           <div className="max-w-xl mx-auto space-y-3">
             <h2 className="text-3xl font-black text-text">Experience It Yourself This Saturday</h2>
             <p className="text-xs sm:text-sm text-text-muted">

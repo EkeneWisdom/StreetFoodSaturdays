@@ -73,7 +73,7 @@ export default function ContactPage() {
                 href={channel.href}
                 target={channel.href.startsWith("http") ? "_blank" : undefined}
                 rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="group relative flex flex-col justify-between rounded-2xl border border-border/60 bg-surface/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-xl hover:shadow-primary/5"
+                className="group relative flex flex-col justify-between rounded-2xl border border-border/60 bg-surface/90 p-6 transform-gpu transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-xl hover:shadow-primary/5"
               >
                 {channel.badge && (
                   <span className="absolute top-4 right-4 rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-bold text-primary">
@@ -100,7 +100,7 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">
           
           {/* Left Column: Interactive Inquiry Form */}
-          <div className="lg:col-span-7 rounded-3xl border border-border/60 bg-surface-elevated/40 p-6 sm:p-10 shadow-xl backdrop-blur-md">
+          <div className="lg:col-span-7 rounded-3xl border border-border/60 bg-surface-elevated/90 p-6 sm:p-10 shadow-xl transform-gpu">
             <div className="mb-8">
               <h2 className="text-2xl font-black text-text mb-2">Send Us A Message</h2>
               <p className="text-sm text-text-muted">
@@ -228,10 +228,10 @@ export default function ContactPage() {
           </div>
 
           {/* Right Column: Location & Hours Details */}
-          <div className="lg:col-span-5 space-y-8">
+          <div className="lg:col-span-5 space-y-8 transform-gpu">
             
             {/* Hours Card */}
-            <div className="rounded-3xl border border-border/60 bg-surface/60 p-6 sm:p-8 space-y-6 backdrop-blur-md">
+            <div className="rounded-3xl border border-border/60 bg-surface/90 p-6 sm:p-8 space-y-6 shadow-md">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <Clock size={20} />
@@ -250,7 +250,7 @@ export default function ContactPage() {
                       "flex items-center justify-between rounded-xl p-3 text-xs transition-colors",
                       item.highlighted
                         ? "bg-primary/15 border border-primary/30 text-text font-bold"
-                        : "bg-surface-elevated/40 text-text-muted"
+                        : "bg-surface-elevated/60 text-text-muted"
                     )}
                   >
                     <div>
@@ -273,7 +273,7 @@ export default function ContactPage() {
             </div>
 
             {/* Location & Map Shortcut Card */}
-            <div className="rounded-3xl border border-border/60 bg-surface/60 p-6 sm:p-8 space-y-6 backdrop-blur-md">
+            <div className="rounded-3xl border border-border/60 bg-surface/90 p-6 sm:p-8 space-y-6 shadow-md">
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                   <MapPin size={20} />
@@ -295,7 +295,7 @@ export default function ContactPage() {
                   return (
                     <div
                       key={i}
-                      className="flex items-center gap-2 rounded-xl border border-border/40 bg-surface-elevated/50 p-2.5 text-[11px] font-medium text-text"
+                      className="flex items-center gap-2 rounded-xl border border-border/40 bg-surface-elevated/70 p-2.5 text-[11px] font-medium text-text"
                     >
                       <FeatIcon size={14} className="text-primary shrink-0" />
                       <span className="truncate">{feat.text}</span>
@@ -320,7 +320,7 @@ export default function ContactPage() {
         </div>
 
         {/* 4. Frequently Asked Questions Accordion */}
-        <div className="mx-auto max-w-3xl space-y-8">
+        <div className="mx-auto max-w-3xl space-y-8 transform-gpu">
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
               <HelpCircle size={14} />
@@ -335,7 +335,7 @@ export default function ContactPage() {
               return (
                 <div
                   key={index}
-                  className="rounded-2xl border border-border/60 bg-surface/50 overflow-hidden transition-all"
+                  className="rounded-2xl border border-border/60 bg-surface/90 overflow-hidden transition-all shadow-sm"
                 >
                   <button
                     type="button"
@@ -353,7 +353,7 @@ export default function ContactPage() {
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-0 text-xs text-text-muted leading-relaxed border-t border-border/30 pt-3">
+                    <div className="px-5 pb-5 text-xs text-text-muted leading-relaxed border-t border-border/30 pt-3">
                       {faq.answer}
                     </div>
                   )}
