@@ -7,8 +7,7 @@ import {
   ArrowRight, 
   HelpCircle,
   ChevronDown,
-  Sparkles,
-  MessageSquare
+  Sparkles
 } from "lucide-react";
 import { contactPageData } from "./data";
 import { cn } from "@/lib/cn";
@@ -18,7 +17,7 @@ export default function ContactPage() {
     name: "",
     email: "",
     phone: "",
-    inquiryType: contactPageData.inquiryTypes[0],
+    inquiryType: contactPageData.inquiryTypes?.[0] || "General Inquiry",
     message: "",
   });
 
@@ -36,7 +35,7 @@ export default function ContactPage() {
         name: "",
         email: "",
         phone: "",
-        inquiryType: contactPageData.inquiryTypes[0],
+        inquiryType: contactPageData.inquiryTypes?.[0] || "General Inquiry",
         message: "",
       });
     }, 1200);
@@ -44,8 +43,8 @@ export default function ContactPage() {
 
   return (
     <div className="relative overflow-hidden bg-background pt-10 pb-24 text-text">
-      {/* Background Decorative Glows */}
-      <div className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-96 w-full max-w-7xl -translate-x-1/2 rounded-full bg-primary/10 blur-3xl" />
+      {/* Background Decorative Glows - Isolated to prevent backdrop matrix jitter */}
+      <div className="pointer-events-none absolute -top-24 left-1/2 -z-10 h-96 w-full max-w-7xl -translate-x-1/2 rounded-full bg-primary/10 blur-3xl opacity-50" />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -63,7 +62,7 @@ export default function ContactPage() {
           </p>
         </div>
 
-        {/* 2. Direct Contact Cards Grid */}
+        {/* 2. Direct Contact Cards Grid - Removed transform-gpu & simplified translate hover */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
           {contactPageData.channels.map((channel) => {
             const Icon = channel.icon;
@@ -73,7 +72,7 @@ export default function ContactPage() {
                 href={channel.href}
                 target={channel.href.startsWith("http") ? "_blank" : undefined}
                 rel={channel.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                className="group relative flex flex-col justify-between rounded-2xl border border-border/60 bg-surface/90 p-6 transform-gpu transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-xl hover:shadow-primary/5"
+                className="group relative flex flex-col justify-between rounded-2xl border border-border/60 bg-surface/90 p-6 transition-all duration-200 hover:border-primary/40 hover:bg-surface-elevated hover:shadow-lg"
               >
                 {channel.badge && (
                   <span className="absolute top-4 right-4 rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-bold text-primary">
@@ -81,7 +80,7 @@ export default function ContactPage() {
                   </span>
                 )}
                 <div>
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-110">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl border border-primary/30 bg-primary/10 text-primary transition-transform duration-200 group-hover:scale-105">
                     <Icon size={22} />
                   </div>
                   <h3 className="text-lg font-bold text-text mb-1">{channel.title}</h3>
@@ -89,18 +88,18 @@ export default function ContactPage() {
                 </div>
                 <div className="flex items-center gap-2 text-xs font-bold text-primary group-hover:underline">
                   <span>{channel.actionText}</span>
-                  <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                  <ArrowRight size={14} className="transition-transform duration-200 group-hover:translate-x-1" />
                 </div>
               </a>
             );
           })}
         </div>
 
-        {/* 3. Main Interactive Grid: Contact Form + Location & Hours */}
+        {/* 3. Main Interactive Grid - Removed transform-gpu on form and sidebar wrappers */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-24">
           
           {/* Left Column: Interactive Inquiry Form */}
-          <div className="lg:col-span-7 rounded-3xl border border-border/60 bg-surface-elevated/90 p-6 sm:p-10 shadow-xl transform-gpu">
+          <div className="lg:col-span-7 rounded-3xl border border-border/60 bg-surface-elevated/90 p-6 sm:p-10 shadow-xl">
             <div className="mb-8">
               <h2 className="text-2xl font-black text-text mb-2">Send Us A Message</h2>
               <p className="text-sm text-text-muted">
@@ -115,7 +114,7 @@ export default function ContactPage() {
                 </div>
                 <h3 className="text-2xl font-bold text-text">Message Received!</h3>
                 <p className="text-sm text-text-muted max-w-md mx-auto">
-                  Thank you for reaching out to Street Food Saturdays. We'll review your message and reply shorty.
+                  Thank you for reaching out to Street Food Saturdays. We'll review your message and reply shortly.
                 </p>
                 <button
                   type="button"
@@ -212,7 +211,7 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={status === "submitting"}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 hover:shadow-primary/35 disabled:opacity-50"
+                  className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 text-sm font-bold text-white shadow-lg shadow-primary/25 transition-all hover:bg-primary/90 disabled:opacity-50"
                 >
                   {status === "submitting" ? (
                     <span>Sending Message...</span>
@@ -228,7 +227,7 @@ export default function ContactPage() {
           </div>
 
           {/* Right Column: Location & Hours Details */}
-          <div className="lg:col-span-5 space-y-8 transform-gpu">
+          <div className="lg:col-span-5 space-y-8">
             
             {/* Hours Card */}
             <div className="rounded-3xl border border-border/60 bg-surface/90 p-6 sm:p-8 space-y-6 shadow-md">
@@ -319,8 +318,8 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* 4. Frequently Asked Questions Accordion */}
-        <div className="mx-auto max-w-3xl space-y-8 transform-gpu">
+        {/* 4. Frequently Asked Questions Accordion - Removed transform-gpu */}
+        <div className="mx-auto max-w-3xl space-y-8">
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-primary">
               <HelpCircle size={14} />
