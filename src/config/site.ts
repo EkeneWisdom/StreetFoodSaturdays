@@ -3,7 +3,7 @@ export const site = {
   company: "Street Food Saturdays",
   shortName: "SFS",
 
-  tagline: "Woodfire Gourmet River Dining Experience",
+  tagline: "River Dining Experience",
 
   description:
     "Woodfire gourmet river dining in Golden Spring, St. Andrew, Jamaica. By Chef Walker-Barrett. By reservation only.",
