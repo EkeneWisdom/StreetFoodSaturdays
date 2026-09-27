@@ -20,6 +20,7 @@ import {
 //import { reservationData, SeatingZone, PreorderItem } from "./data";
 import { reservationData } from "./data";
 import { cn } from "@/lib/cn";
+import { contact } from "@/config/contact";
 
 export default function ReservationsPage() {
   // Step State (1: Details & Zone, 2: Food Pre-order, 3: Guest Info & Confirm)
@@ -83,7 +84,7 @@ export default function ReservationsPage() {
       (preorderTotalJMD > 0 ? `*Pre-order Total:* $${preorderTotalJMD.toLocaleString()} JMD%0A` : "") +
       (specialNotes ? `%0A*Special Requests:* ${specialNotes}` : "");
 
-    return `https://wa.me/18765550199?text=${message}`; // Replace with your WhatsApp Business Number
+    return `${contact.whatsappHref}?text=${message}`; // Replace with your WhatsApp Business Number
   };
 
   return (

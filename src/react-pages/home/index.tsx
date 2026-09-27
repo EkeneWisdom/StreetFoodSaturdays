@@ -111,7 +111,7 @@ export default function HomePage() {
                     Gates Open 12 PM
                   </span>
                 </div>
-                <p className="text-sm font-bold text-white">Freshly Smoked Jerk & Cold Spring Dips</p>
+                <p className="text-sm">Freshly Smoked Jerk & Cold Spring Dips</p>
               </div>
             </div>
           </div>
